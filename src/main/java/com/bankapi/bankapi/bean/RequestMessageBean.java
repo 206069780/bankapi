@@ -12,5 +12,5 @@ import java.io.Serializable;
  * @description: RequestMessagebean 封装返回的的消息
  **/
 public class RequestMessageBean implements Serializable {
-
+    public static final Long serialVersionUID = 1618844236006L;
 }

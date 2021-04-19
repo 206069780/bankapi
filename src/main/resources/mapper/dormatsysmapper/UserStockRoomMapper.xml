@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatsysdao.UserStockRoomDao">
+    <resultMap id="UserStockRoomMap" type="com.bankapi.bankapi.model.dormatsys.UserStockRoom">
+        <id property="id" column="ID"/>
+        <id property="createTime" column="CREATE_TIME"/>
+        <id property="stockRoomId" column="GS_ID"/>
+        <id property="status" column="STATUS"/>
+        <id property="userId" column="USER_ID"/>
+    </resultMap>
+
+    <select id="getUserStockRoom" resultMap="UserStockRoomMap">
+        select * from G_USER_GS
+    </select>
+
+</mapper>

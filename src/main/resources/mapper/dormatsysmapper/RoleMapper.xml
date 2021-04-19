@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatsysdao.RoleDao">
+    <resultMap id="RoleMap" type="com.bankapi.bankapi.model.dormatsys.Role">
+        <id column="ID" property="id"/>
+        <id column="NAME" property="roleName"/>
+        <id column="DEPT_TYPE" property="departmentType"/>
+        <id column="ROLE_TYPE" property="roleType"/>
+        <id column="REMARK" property="remark"/>
+        <id column="STATUS" property="status"/>
+        <id column="CREATE_TIME" property="createTime"/>
+        <id column="UPDATE_TIME" property="updaDateTime"/>
+    </resultMap>
+
+    <select id="getAllRoles" resultMap="RoleMap">
+        select *
+        from R_ROLE
+    </select>
+</mapper>
