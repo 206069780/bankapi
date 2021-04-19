@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,9 +27,9 @@ public class MainController {
     @Autowired
     UserServiceIml userServiceIml;
 
+    @ResponseBody
     @RequestMapping(value = "getAllUsers",method = RequestMethod.GET)
     public List<User> getAllUsers(){
-
         return userServiceIml.findAllUsers();
     }
 }

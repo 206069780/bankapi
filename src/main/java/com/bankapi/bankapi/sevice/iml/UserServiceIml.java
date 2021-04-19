@@ -4,6 +4,7 @@ import com.bankapi.bankapi.dao.UserDao;
 import com.bankapi.bankapi.model.User;
 import com.bankapi.bankapi.sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @createDate: 2021-04-17  21:02
  * @description: UserService 实现类
  **/
+@Service
 public class UserServiceIml implements UserService {
     @Autowired
     UserDao userDao;
