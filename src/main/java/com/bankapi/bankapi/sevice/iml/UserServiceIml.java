@@ -1,7 +1,7 @@
 package com.bankapi.bankapi.sevice.iml;
 
-import com.bankapi.bankapi.dao.UserDao;
-import com.bankapi.bankapi.model.User;
+import com.bankapi.bankapi.dao.dormatsysdao.UserDao;
+import com.bankapi.bankapi.model.dormatsys.User;
 import com.bankapi.bankapi.sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import java.util.List;
  **/
 @Service
 public class UserServiceIml implements UserService {
+
     @Autowired
     UserDao userDao;
 

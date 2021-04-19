@@ -9,6 +9,6 @@ package com.bankapi.bankapi.bean;
  * @createDate: 2021-04-18  22:46
  * @description: RequestMessagebean 封装返回的的消息
  **/
-public class RequestMessagebean {
+public class RequestMessageBean {
 
 }

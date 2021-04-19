@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper  namespace="com.bankapi.bankapi.dao.UserDao">
-    <resultMap id="UserMap" type="com.bankapi.bankapi.model.User">
+<mapper  namespace="com.bankapi.bankapi.dao.dormatsysdao.UserDao">
+    <resultMap id="UserMap" type="com.bankapi.bankapi.model.dormatsys.User">
         <id column="ID" property="id"/>
         <id column="USERNAME" property="username"/>
         <id column="NICKNAME" property="nickname"/>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.bankapi.bankapi.dao.dormatdao.DepartmentDao">
+    <resultMap id="DepartmentMap" type="com.bankapi.bankapi.model.dormat.Department">
+        <id column="ID" property="id"/>
+        <id column="CODE" property="departmentCode"/>
+        <id column="PCODE" property="parentDepartmentCode"/>
+        <id column="NAME" property="departmentName"/>
+        <id column="SOCIAL_CREDIT_CODE" property="sociateCreditCode"/>
+        <id column="COUNTY" property="country"/>
+        <id column="TOWN" property="town"/>
+        <id column="ADDRESS" property="address"/>
+        <id column="VILLAGE" property="village"/>
+        <id column="HEAD_USER_ID" property="principalId"/>
+        <id column="HEAD_USER_PHONE" property="principalPhone"/>
+        <id column="TYPE" property="departmentType"/>
+        <id column="REMARK" property="remark"/>
+        <id column="STATUS" property="status"/>
+        <id column="CREATE_USER_ID" property="operationUser"/>
+        <id column="CREATE_TIME" property="createTime"/>
+        <id column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+    <select id="getAllDepartment" resultMap="DepartmentMap">
+        select *
+        from D_DEPT
+    </select>
+
+</mapper>

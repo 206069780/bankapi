@@ -1,6 +1,6 @@
 package com.bankapi.bankapi.config;
 
-import com.bankapi.bankapi.model.User;
+import com.bankapi.bankapi.model.dormatsys.User;
 import com.bankapi.bankapi.sevice.iml.UserServiceIml;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

@@ -1,0 +1,13 @@
+#数据源配置文件
+spring:
+    datasource:
+        dormatsys:
+            jdbc-url: jdbc:oracle:thin:@localhost:1521:XE
+            username: DORMAT_SYS
+            password: dormat_sys
+            driver-class-name: oracle.jdbc.driver.OracleDriver
+        dormat:
+            jdbc-url: jdbc:oracle:thin:@localhost:1521:XE
+            username: DORMAT
+            password: dormat
+            driver-class-name: oracle.jdbc.driver.OracleDriver

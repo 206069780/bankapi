@@ -1,4 +1,4 @@
-package com.bankapi.bankapi.model;
+package com.bankapi.bankapi.model.dormatsys;
 
 import java.io.Serializable;
 import java.util.Date;

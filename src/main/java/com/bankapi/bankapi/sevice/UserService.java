@@ -1,6 +1,6 @@
 package com.bankapi.bankapi.sevice;
 
-import com.bankapi.bankapi.model.User;
+import com.bankapi.bankapi.model.dormatsys.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

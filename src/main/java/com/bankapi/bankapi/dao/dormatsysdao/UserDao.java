@@ -1,6 +1,6 @@
-package com.bankapi.bankapi.dao;
+package com.bankapi.bankapi.dao.dormatsysdao;
 
-import com.bankapi.bankapi.model.User;
+import com.bankapi.bankapi.model.dormatsys.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,7 +35,7 @@ public interface UserDao {
 
     /**
      * 更新用户数据
-     * @param id 用户id
+     * @param user
      * @return 返回修改的数量
      */
     public int UpdateUserById(@Param("user")User user);

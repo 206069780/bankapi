@@ -1,6 +1,8 @@
 package com.bankapi.bankapi.controller;
 
-import com.bankapi.bankapi.model.User;
+import com.bankapi.bankapi.model.dormatsys.User;
+import com.bankapi.bankapi.model.dormat.Department;
+import com.bankapi.bankapi.sevice.iml.DepartmentServiceIml;
 import com.bankapi.bankapi.sevice.iml.UserServiceIml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +29,18 @@ public class MainController {
     @Autowired
     UserServiceIml userServiceIml;
 
+    @Autowired
+    DepartmentServiceIml departmentServiceIml;
+
     @ResponseBody
     @RequestMapping(value = "getAllUsers",method = RequestMethod.GET)
     public List<User> getAllUsers(){
         return userServiceIml.findAllUsers();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getalldepartment",method = RequestMethod.GET)
+    public List<Department> getDepartmentServiceIml() {
+        return departmentServiceIml.getDepartmentList();
     }
 }
