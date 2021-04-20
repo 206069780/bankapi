@@ -1,7 +1,6 @@
 package com.bankapi.bankapi.dao.dormatsysdao;
 
 import com.bankapi.bankapi.model.dormatsys.DataDictionary;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 
