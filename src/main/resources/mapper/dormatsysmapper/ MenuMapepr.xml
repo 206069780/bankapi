@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatsysdao.MenuDao">
+    <resultMap id="MenuMap" type="com.bankapi.bankapi.model.dormatsys.Menu">
+        <id column="ID"          property="id"/>
+        <id column="PID"         property="parentId"/>
+        <id column="NAME"        property="menuName"/>
+        <id column="COMPONENT"   property="compomentName"/>
+        <id column="ICON"        property="icon"/>
+        <id column="SORT"        property="menuSort"/>
+        <id column="REMARK"      property="remark"/>
+        <id column="STATUS"      property="status"/>
+        <id column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+    <select id="getMenus" resultMap="MenuMap">
+        select * from RES_MENU
+    </select>
+</mapper>

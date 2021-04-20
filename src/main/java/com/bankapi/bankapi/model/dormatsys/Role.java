@@ -10,9 +10,10 @@ import java.util.Date;
  * @author: Mr.FU
  * @Email: fudaopin@gmail.com
  * @createDate: 2021-04-19  23:46
- * @description: TODO
+ * @description: Role model
  **/
 public class Role implements Serializable {
+
     public static final Long serialVersionUID = 1618847228046L;
 
     /*自增主键*/

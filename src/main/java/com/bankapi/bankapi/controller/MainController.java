@@ -1,13 +1,10 @@
 package com.bankapi.bankapi.controller;
 
-import com.bankapi.bankapi.model.dormatsys.Role;
-import com.bankapi.bankapi.model.dormatsys.User;
+import com.bankapi.bankapi.model.dormat.ApprovalProcessTaskBatch;
 import com.bankapi.bankapi.model.dormat.Department;
-import com.bankapi.bankapi.model.dormatsys.UserStockRoom;
-import com.bankapi.bankapi.sevice.iml.DepartmentServiceIml;
-import com.bankapi.bankapi.sevice.iml.RoleServiceIml;
-import com.bankapi.bankapi.sevice.iml.UserServiceIml;
-import com.bankapi.bankapi.sevice.iml.UserStockRoomServiceIml;
+import com.bankapi.bankapi.model.dormatsys.*;
+import com.bankapi.bankapi.sevice.ApprovalProcessTaskBatchService;
+import com.bankapi.bankapi.sevice.iml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +50,9 @@ public class MainController {
     public String UID() {
         Long uid = System.currentTimeMillis();
         if (uid % 2 == 0) {
-            return uid + "L";
+            return "public static final Long serialVersionUID =" + uid + "L;";
         } else {
-            return "-" + uid + "L";
+            return "public static final Long serialVersionUID =" + "-" + uid + "L;";
         }
 
     }
@@ -74,7 +71,53 @@ public class MainController {
 
     @ResponseBody
     @RequestMapping(value = "getAllRoles", method = RequestMethod.GET)
-    public List<Role> getAllRoles(){
+    public List<Role> getAllRoles() {
         return roleServiceIml.getALlRoles();
+    }
+
+    @Autowired
+    RoleMenuServiceIml roleMenuServiceIml;
+
+    @ResponseBody
+    @RequestMapping(value = "getRoleMune", method = RequestMethod.GET)
+    public List<RoleMenu> getReolMenus() {
+        return roleMenuServiceIml.getRoles();
+    }
+
+    @Autowired
+    DataDictionaryServiceIml dataDictionaryServiceIml;
+
+    @RequestMapping(value = "getDataDictionary", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DataDictionary> getRequestMethod() {
+        return dataDictionaryServiceIml.getDataDictionary();
+    }
+
+    @Autowired
+    MenuServiceIml menuServiceIml;
+
+    @RequestMapping(method = RequestMethod.GET, value = "getMenus")
+    @ResponseBody
+    public List<Menu> getMenus() {
+        return menuServiceIml.getMenuList();
+    }
+
+    @Autowired
+    UserRoleServiceIml userRoleServiceIml;
+
+    @ResponseBody
+    @RequestMapping(value = "getUserRole", method = RequestMethod.GET)
+    public List<UserRole> getUserRoles() {
+
+        return userRoleServiceIml.getUserRoleList();
+    }
+
+    @Autowired
+    ApprovalProcessTaskBatchServiceIml approvalProcessTaskBatchServiceIml;
+
+    @RequestMapping(value = "getApprovalProcessTasks", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ApprovalProcessTaskBatch> getApprovalProcessTasks(){
+        return approvalProcessTaskBatchServiceIml.getApprovalProcessTasks();
     }
 }

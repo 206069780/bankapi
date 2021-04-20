@@ -10,7 +10,7 @@ import java.util.Date;
  * @author: Mr.FU
  * @Email: fudaopin@gmail.com
  * @createDate: 2021-04-19  20:55
- * @description: TODO
+ * @description: 用户-股室 model
  **/
 public class UserStockRoom implements Serializable {
 

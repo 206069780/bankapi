@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatsysdao.RoleMenuDao">
+    <resultMap id="RoleMenuMapper" type="com.bankapi.bankapi.model.dormatsys.RoleMenu">
+        <id column="ID" property="id"/>
+        <id column="ROLE_ID" property="roleId"/>
+        <id column="MENU_ID" property="menuId"/>
+        <id column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+    <select id="getRoleMenuList" resultMap="RoleMenuMapper">
+        select *
+        from R_ROLE_MENU
+    </select>
+</mapper>
