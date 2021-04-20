@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.BatchImportConstraintDao">
+    <resultMap id="BatchImportConstraintMap" type="com.bankapi.bankapi.model.dormat.BatchImportConstraint">
+        <id column="ID" property="id"/>
+        <id column="NAME" property="constraintName"/>
+        <id column="PARAMETER_COUNT" property="paramCount"/>
+        <id column="PARAMETER_TYPE" property="paramType"/>
+        <id column="STATUS" property="status"/>
+        <id column="CREATOR_ID" property="createUserId"/>
+        <id column="CREATE_TIME" property="createTime"/>
+        <id column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+    <select id="getBatchImportConstraints" resultMap="BatchImportConstraintMap">
+        select *
+        from APV_APPROVAL_BATCH_CONSTRAINT
+    </select>
+</mapper>

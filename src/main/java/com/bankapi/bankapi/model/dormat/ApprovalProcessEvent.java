@@ -8,12 +8,12 @@ import java.util.Date;
  * @version 1.0
  * @PackageName com.bankapi.bankapi.model.dormat
  * @ProjectName bankapi
- * @ClassName ApprovalProcessEvents
+ * @ClassName ApprovalProcessEvent
  * @Email fudaopin@gamil.com
  * @date 2021/4/20 上午11:45
  * @Description 审批流程事件
  */
-public class ApprovalProcessEvents implements Serializable {
+public class ApprovalProcessEvent implements Serializable {
     /**
      * ID	NUMBER	No		1
      * APPROVAL_ID	VARCHAR2(20 BYTE)	Yes		2	任务ID
@@ -53,7 +53,7 @@ public class ApprovalProcessEvents implements Serializable {
     private Long id;
 
     /*任务id*/
-    private String APPROVAL_ID;
+    private String taskId;
 
     /*提交总人数-弃用*/
     private Long subTotalCount;
@@ -139,11 +139,12 @@ public class ApprovalProcessEvents implements Serializable {
     /*更新时间*/
     private Date updaDate;
 
-    public ApprovalProcessEvents(){}
+    public ApprovalProcessEvent() {
+    }
 
-    public ApprovalProcessEvents(Long id, String APPROVAL_ID, Long subTotalCount, Long subTotalMoney, Long preTotalCount, Long preTotalMoney, Long readyTotalCount, Long readyTotalMoney, String currentNode, String templateId, String isFirst, String isPrint, String bankNoticeStatus, String issuanceName, String issuanceMD5, String temp1, String temp2, String temp3, String temp4, String temp5, String temp6, String temp7, int bankRetPayCount, Date lastRetPayTime, String stockRoomId, String remark, String status, String operator, Date creaDate, Date updaDate) {
+    public ApprovalProcessEvent(Long id, String APPROVAL_ID, Long subTotalCount, Long subTotalMoney, Long preTotalCount, Long preTotalMoney, Long readyTotalCount, Long readyTotalMoney, String currentNode, String templateId, String isFirst, String isPrint, String bankNoticeStatus, String issuanceName, String issuanceMD5, String temp1, String temp2, String temp3, String temp4, String temp5, String temp6, String temp7, int bankRetPayCount, Date lastRetPayTime, String stockRoomId, String remark, String status, String operator, Date creaDate, Date updaDate) {
         this.id = id;
-        this.APPROVAL_ID = APPROVAL_ID;
+        this.taskId = APPROVAL_ID;
         this.subTotalCount = subTotalCount;
         this.subTotalMoney = subTotalMoney;
         this.preTotalCount = preTotalCount;
@@ -182,12 +183,12 @@ public class ApprovalProcessEvents implements Serializable {
         this.id = id;
     }
 
-    public String getAPPROVAL_ID() {
-        return APPROVAL_ID;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setAPPROVAL_ID(String APPROVAL_ID) {
-        this.APPROVAL_ID = APPROVAL_ID;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public Long getSubTotalCount() {
@@ -416,9 +417,9 @@ public class ApprovalProcessEvents implements Serializable {
 
     @Override
     public String toString() {
-        return "ApprovalProcessEvents{" +
+        return "ApprovalProcessEvent{" +
                 "id=" + id +
-                ", APPROVAL_ID='" + APPROVAL_ID + '\'' +
+                ", APPROVAL_ID='" + taskId + '\'' +
                 ", subTotalCount=" + subTotalCount +
                 ", subTotalMoney=" + subTotalMoney +
                 ", preTotalCount=" + preTotalCount +

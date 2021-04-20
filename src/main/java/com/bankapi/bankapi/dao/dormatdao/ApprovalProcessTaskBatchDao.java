@@ -13,7 +13,7 @@ import java.util.List;
  * @ClassName ApprovalProcessTaskBatchDao
  * @Email fudaopin@gamil.com
  * @date 2021/4/20 上午11:25
- * @Description ApprovalProcessTaskBatch 数据持久化
+ * @Description 审批流程任务批次 ApprovalProcessTaskBatch 数据持久化
  */
 
 @Mapper

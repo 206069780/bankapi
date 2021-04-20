@@ -20,13 +20,13 @@ public class Department {
     /* 部门编码 */
     private String departmentCode;
 
-    /* 父级部门编码 */
+    /*父级部门编码*/
     private String parentDepartmentCode;
 
-    /* 部门名称 */
+    /* 部门名称*/
     private String departmentName;
 
-    /* 社会信用代码 */
+    /*社会信用代码*/
     private String sociateCreditCode;
 
     /* 区县  */

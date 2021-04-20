@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.LocalIndicatorAllocationDao">
+    <resultMap id="LocalIndicatorAllocationMap" type="com.bankapi.bankapi.model.dormat.LocalIndicatorAllocation">
+        <id column="ID" property="id"/>
+        <id column="BATCH_ID" property="detailNumber"/>
+        <id column="ZBID" property="indicatorId"/>
+        <id column="ZBWH" property="indicatorTxtNumber"/>
+        <id column="FWRQ" property="indicatorTxtSeanDate"/>
+        <id column="DEPT" property="tockerRoom"/>
+        <id column="DIVID" property="unitCode"/>
+        <id column="DIVNAME" property="unitName"/>
+        <id column="PROJNAME" property="subsidyName"/>
+        <id column="GNFL" property="functionType"/>
+        <id column="BMJJFL" property="departmetEconomicType"/>
+        <id column="ZFJJFL" property="governmentEconomicType"/>
+        <id column="ZJXZ" property="natureFunds"/>
+        <id column="ZBLY" property="indicatorSource"/>
+        <id column="XMFL" property="projectType"/>
+        <id column="YSXM" property="preProject"/>
+        <id column="HSLX" property="checkType"/>
+        <id column="JZLX" property="JZLX"/>
+        <id column="AMT" property="money"/>
+        <id column="CREATE_USER_ID" property="operator"/>
+        <id column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+
+    <select id="getLocalIndicatorAllocationList" resultMap="LocalIndicatorAllocationMap">
+        select *
+        from Z_ZB_LOCAL
+    </select>
+</mapper>

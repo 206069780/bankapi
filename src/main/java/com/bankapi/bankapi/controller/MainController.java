@@ -1,9 +1,7 @@
 package com.bankapi.bankapi.controller;
 
-import com.bankapi.bankapi.model.dormat.ApprovalProcessTaskBatch;
-import com.bankapi.bankapi.model.dormat.Department;
+import com.bankapi.bankapi.model.dormat.*;
 import com.bankapi.bankapi.model.dormatsys.*;
-import com.bankapi.bankapi.sevice.ApprovalProcessTaskBatchService;
 import com.bankapi.bankapi.sevice.iml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -117,7 +115,44 @@ public class MainController {
 
     @RequestMapping(value = "getApprovalProcessTasks", method = RequestMethod.GET)
     @ResponseBody
-    public List<ApprovalProcessTaskBatch> getApprovalProcessTasks(){
+    public List<ApprovalProcessTaskBatch> getApprovalProcessTasks() {
         return approvalProcessTaskBatchServiceIml.getApprovalProcessTasks();
     }
+
+    @Autowired
+    ApprovalProcessEventDaoServiceIml approvalProcessEventDaoServiceIml;
+
+    @ResponseBody
+    @RequestMapping(value = "getApprovalProcessEvents", method = RequestMethod.GET)
+    public List<ApprovalProcessEvent> getApprovalProcessEvents() {
+        return approvalProcessEventDaoServiceIml.getApprovalProcessEvents();
+    }
+
+    @Autowired
+    BatchImportConstraintServiceIml batchImportConstraintServiceIml;
+
+    @ResponseBody
+    @RequestMapping(value = "getBatchImportConstraints", method = RequestMethod.GET)
+    public List<BatchImportConstraint> getBatchImportConstraint() {
+        return batchImportConstraintServiceIml.getBatchImportConstraints();
+    }
+
+    @Autowired
+    SubsidyItemServiceIml subsidyItemServiceIml;
+
+    @RequestMapping(value = "getSubsidyItems", method = RequestMethod.GET)
+    @ResponseBody
+    public List<SubsidyItem> getSubsidyItems() {
+        return subsidyItemServiceIml.getSubsidyItems();
+    }
+
+    @Autowired
+    LocalIndicatorAllocationServiceIml localIndicatorAllocationServiceIml;
+
+    @RequestMapping(value = "getLocalIndicatorAllocationList", method = RequestMethod.GET)
+    @ResponseBody
+    public List<LocalIndicatorAllocation> getLocalIndicatorAllocationList(){
+       return localIndicatorAllocationServiceIml.getAllocation();
+    }
+
 }

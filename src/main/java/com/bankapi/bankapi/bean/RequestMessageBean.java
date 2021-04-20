@@ -1,6 +1,7 @@
 package com.bankapi.bankapi.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @packageName: com.bankapi.bankapi.bean
@@ -12,5 +13,11 @@ import java.io.Serializable;
  * @description: RequestMessagebean 封装返回的的消息
  **/
 public class RequestMessageBean implements Serializable {
+
     public static final Long serialVersionUID = 1618844236006L;
+
+    private String message;
+
+    private boolean status;
+
 }

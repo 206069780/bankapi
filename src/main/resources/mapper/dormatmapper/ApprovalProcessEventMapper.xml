@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.ApprovalProcessEventDao">
+    <resultMap id="ApprovalProcessEventMap" type="com.bankapi.bankapi.model.dormat.ApprovalProcessEvent">
+        <id column="ID" property="id"/>
+        <id column="APPROVAL_ID" property="taskId"/>
+        <id column="APPLY_COUNT" property="subTotalCount"/>
+        <id column="APPLY_MONEY" property="subTotalMoney"/>
+        <id column="TOTAL_COUNT" property="preTotalCount"/>
+        <id column="TOTAL_MONEY" property="preTotalMoney"/>
+        <id column="REPLY_COUNT" property="readyTotalCount"/>
+        <id column="REPLY_MONEY" property="readyTotalMoney"/>
+        <id column="CURRENT_NODE" property="currentNode"/>
+        <id column="TEMPLATE_ID" property="templateId"/>
+        <id column="SF" property="isFirst"/>
+        <id column="DY" property="isPrint"/>
+        <id column="BANK_NOTICE_TYPE" property="bankNoticeStatus"/>
+        <id column="RELEASE_NAME" property="issuanceName"/>
+        <id column="RELEASE_MD5" property="issuanceMD5"/>
+        <id column="TEMP1" property="temp1"/>
+        <id column="TEMP2" property="temp2"/>
+        <id column="TEMP3" property="temp3"/>
+        <id column="TEMP4" property="temp4"/>
+        <id column="TEMP5" property="temp5"/>
+        <id column="TEMP6" property="temp6"/>
+        <id column="TEMP7" property="temp7"/>
+        <id column="RETRY_COUNT" property="bankRetPayCount"/>
+        <id column="LAST_RETRY_TIME" property="lastRetPayTime"/>
+        <id column="GS_ID" property="stockRoomId"/>
+        <id column="REMARK" property="remark"/>
+        <id column="STATUS" property="status"/>
+        <id column="CREATE_USER_ID" property="operator"/>
+        <id column="CREATE_TIME" property="creaDate"/>
+        <id column="UPDATE_TIME" property="updaDate"/>
+    </resultMap>
+
+    <select id="getApprovalProcessEvents" resultMap="ApprovalProcessEventMap">
+        select *
+        from APV_APPROVAL_BATCH
+    </select>
+</mapper>

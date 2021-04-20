@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.SubsidyItemDao">
+    <resultMap id="SubsidyItemMap" type="com.bankapi.bankapi.model.dormat.SubsidyItem">
+        <id column="ID" property="id"/>
+        <id column="CODE" property="subsidyCode"/>
+        <id column="PCODE" property="prantCode"/>
+        <id column="NAME" property="subsidyName"/>
+        <id column="DIGEST_CODE" property="digestCode"/>
+        <id column="DIGEST_DESC" property="digestDesc"/>
+        <id column="REMARK" property="remark"/>
+        <id column="STATUS" property="status"/>
+        <id column="CREATE_USER_ID" property="operator"/>
+        <id column="CREATE_TIME" property="createTime"/>
+        <id column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+    <select id="getSubsidyItemList" resultMap="SubsidyItemMap">
+        select *
+        from S_SUBSIDY
+    </select>
+</mapper>
