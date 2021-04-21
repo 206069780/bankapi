@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.BankIssuedDataDao">
+    <resultMap id="BankIssuedDataMap" type="com.bankapi.bankapi.bean.BankIssuedData">
+        <id property="PCID" column="BATCH_ID"/>
+        <id property="name" column="BANK_HOLDER"/>
+        <id property="bankID" column="BANK_NO"/>
+        <id property="mory" column="MONEY"/>
+        <id property="SFZH" column="AGENT_CARD_NONAME"/>
+        <id property="BTMC" column="NAME"/>
+    </resultMap>
+    <select id="getBankIssuedDataList" resultMap="BankIssuedDataMap">
+        select distinct APV_APPROVAL_BATCH_DETAIL.BATCH_ID,
+                        APV_APPROVAL_BATCH_DETAIL.BANK_HOLDER,
+                        APV_APPROVAL_BATCH_DETAIL.BANK_NO,
+                        APV_APPROVAL_BATCH_DETAIL.MONEY,
+                        APV_APPROVAL_BATCH_DETAIL.AGENT_CARD_NO,
+                        S_SUBSIDY.NAME
+        from APV_APPROVAL_BATCH_DETAIL,
+             S_SUBSIDY,
+             APV_APPROVAL
+        where APV_APPROVAL_BATCH_DETAIL.APPROVAL_ID = APV_APPROVAL.ID
+          and APV_APPROVAL.SUBSIDY_CODE = S_SUBSIDY.CODE
+    </select>
+</mapper>

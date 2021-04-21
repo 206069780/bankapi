@@ -20,4 +20,38 @@ public class RequestMessageBean implements Serializable {
 
     private boolean status;
 
+    private List<ApiData> data;
+
+    public RequestMessageBean(){}
+
+    public RequestMessageBean(String message, boolean status, List<ApiData> apiData) {
+        this.message = message;
+        this.status = status;
+        this.data = apiData;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public List<ApiData> getData() {
+        return data;
+    }
+
+    public void setData(List<ApiData> data) {
+        this.data = data;
+    }
+
 }

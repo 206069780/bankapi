@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.APIDataDao">
+    <resultMap id="APIDataMap" type="com.bankapi.bankapi.bean.ApiData">
+        <id column="DEPT_ID" property="departmentId"/>
+        <id column="SUBSIDY_CODE" property="subsidyCode"/>
+        <id column="BATCH_ID" property="barchId"/>
+        <id column="FORM_SEQ_ID" property="platFormId"/>
+    </resultMap>
+    <select id="getApiDataList" resultMap="APIDataMap">
+        select distinct APV_APPROVAL.DEPT_ID               as DEPT_ID,
+                        APV_APPROVAL.SUBSIDY_CODE          as SUBSIDY_CODE,
+                        APV_APPROVAL_BATCH_DETAIL.BATCH_ID as BATCH_ID
+        from APV_APPROVAL_BATCH_DETAIL,
+             APV_APPROVAL,
+             APV_APPROVAL_BATCH
+        where APV_APPROVAL.ID = APV_APPROVAL_BATCH_DETAIL.APPROVAL_ID
+          and APV_APPROVAL_BATCH.APPROVAL_ID = APV_APPROVAL.ID
+          and APV_APPROVAL_BATCH.BANK_NOTICE_TYPE = '0'
+    </select>
+</mapper>
