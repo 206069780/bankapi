@@ -1,6 +1,5 @@
 package com.bankapi.bankapi.utils;
 
-import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;

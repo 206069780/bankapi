@@ -6,7 +6,7 @@
         <id property="name" column="BANK_HOLDER"/>
         <id property="bankID" column="BANK_NO"/>
         <id property="mory" column="MONEY"/>
-        <id property="SFZH" column="AGENT_CARD_NONAME"/>
+        <id property="SFZH" column="AGENT_CARD_NO"/>
         <id property="BTMC" column="NAME"/>
     </resultMap>
     <select id="getBankIssuedDataList" resultMap="BankIssuedDataMap">

@@ -1,7 +1,6 @@
 package com.bankapi.bankapi.utils;
 
 import com.bankapi.bankapi.bean.BankIssuedData;
-import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -24,54 +23,66 @@ import java.util.List;
 @Component
 public class BankIssuedDataUtils {
 
-    public String creteBankIssuedDataTxt(List<BankIssuedData> IssuedData) throws IOException {
+    public void creteBankIssuedDataTxt(List<BankIssuedData> issuedDat) throws IOException {
 
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String dirName = dateFormat.format(date);
-        String fileName = "";
+        writeMessage(issuedDat, dirName);
+    }
 
-        for (BankIssuedData bankIssuedData :
-                IssuedData) {
-            String bacthId = bankIssuedData.getPCID();
-            fileName = dateFormat.format(date) + "_" + bacthId + ".txt";
-        }
+    private void writeMessage(List<BankIssuedData> dataList, String dirPath) throws IOException {
 
+        File dir = new File("/home/oem/IdeaProjects/bankapi/" + dirPath);
 
-        File dir = new File("/home/kali/IdeaProjects/bankapi/" + dirName);
-        File file = new File("/home/kali/IdeaProjects/bankapi/" + dirName + "/" + fileName);
-
-        BufferedWriter writer = null;
-
+        /*如果文件夹存在*/
         if (dir.exists()) {
-            if (!file.exists()) {
-                file.createNewFile();
-                writeMessage(new FileWriter(file), IssuedData);
-                return fileName + "创建成功";
-            } else {
-                writeMessage(new FileWriter(file), IssuedData);
-                return fileName + " 数据已更新";
-            }
-        } else {
+            writeIntoTxt(dataList, dirPath);
+        }
+        /*文件夹不再存在 先创建文件夹，在创建文件*/
+        else {
             if (dir.mkdirs()) {
-                if (!file.exists()) {
-                    file.createNewFile();
-                    writeMessage(new FileWriter(file), IssuedData);
-                    return fileName + "创建成功";
-                }
-                {
-                    writeMessage(new FileWriter(file), IssuedData);
-                    return fileName + " 数据已更新";
-                }
+                writeIntoTxt(dataList, dirPath);
             } else {
-                return "文件夹 " + dirName + " 创建失败";
+                System.out.println(String.format("文件夹%s创建失败", dirPath));
             }
         }
     }
 
-    private void writeMessage(FileWriter writer, String str) throws IOException {
-        writer.write(str);
-        writer.flush();
-        writer.close();
+    private void writeIntoTxt(List<BankIssuedData> dataList, String dirPath) throws IOException {
+        for (BankIssuedData bankIssuedData : dataList) {
+            File file = new File("/home/oem/IdeaProjects/bankapi/" + "/" + dirPath + "/" + dirPath + "_" + bankIssuedData.getPCID() + ".txt");
+
+            /*如果文件存在 直接写入数据*/
+            if (file.exists()) {
+
+                FileWriter writer = new FileWriter(file, true);
+
+                writer.write(bankIssuedData.getPCID() + ","
+                        + bankIssuedData.getName() + ","
+                        + bankIssuedData.getBankID() + ","
+                        + bankIssuedData.getMory() + ","
+                        + bankIssuedData.getSFZH() + ","
+                        + bankIssuedData.getBTMC() + "\n");
+                writer.flush();
+            }
+            /*文件不存在，先创建文件，在写入数据*/
+            else {
+                if (file.createNewFile()) {
+
+                    FileWriter writer = new FileWriter(file, true);
+
+                    writer.write(bankIssuedData.getPCID() + ","
+                            + bankIssuedData.getName() + ","
+                            + bankIssuedData.getBankID() + ","
+                            + bankIssuedData.getMory() + ","
+                            + bankIssuedData.getSFZH() + ","
+                            + bankIssuedData.getBTMC() + "\n");
+                    writer.flush();
+                }
+
+            }
+
+        }
     }
 }

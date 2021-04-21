@@ -56,9 +56,6 @@ public class BankapiTestApplication {
     @Test
     public void get() throws Exception{
         List<BankIssuedData> bankIssuedDatas = bankIssuedDataDao.getBankIssuedDataList();
-
-        for (BankIssuedData bankIssuedData : bankIssuedDatas) {
-            bankIssuedDataUtils.creteBankIssuedDataTxt(bankIssuedDatas);
-        }
+        bankIssuedDataUtils.creteBankIssuedDataTxt(bankIssuedDatas);
     }
 }
