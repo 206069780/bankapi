@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.FilePathDao">
+    <resultMap id="FilePathMap" type="com.bankapi.bankapi.model.dormat.FilePath">
+        <id property="id" column="ID"/>
+        <id property="batchID" column="BACTH_ID"/>
+        <id property="localPath" column="LOCAL_PAT"/>
+        <id property="bankPath" column="BANK_PATH"/>
+        <id property="status" column="STATUS"/>
+    </resultMap>
+
+    <insert id="saveLocalPath" parameterType="com.bankapi.bankapi.model.dormat.FilePath">
+        insert into FILE_PATH_ATBLE(ID, BACTH_ID, LOCAL_PATH, STATUS)
+        values (#{id}, #{batchID},
+                #{localPath},
+                #{status})
+    </insert>
+
+</mapper>

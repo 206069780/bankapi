@@ -1,6 +1,11 @@
 package com.bankapi.bankapi.utils;
 
 import com.bankapi.bankapi.bean.BankIssuedData;
+import com.bankapi.bankapi.dao.dormatdao.FilePathDao;
+import com.bankapi.bankapi.model.dormat.FilePath;
+import com.bankapi.bankapi.sevice.iml.FilePathServiceIml;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -23,6 +28,12 @@ import java.util.List;
 @Component
 public class BankIssuedDataUtils {
 
+    @Value("${file.dirPath}")
+    private String dirPath;
+
+    @Value("${file.filePath}")
+    private String filePath;
+
     public void creteBankIssuedDataTxt(List<BankIssuedData> issuedDat) throws IOException {
 
         Date date = new Date();
@@ -33,7 +44,7 @@ public class BankIssuedDataUtils {
 
     private void writeMessage(List<BankIssuedData> dataList, String dirPath) throws IOException {
 
-        File dir = new File("/home/oem/IdeaProjects/bankapi/" + dirPath);
+        File dir = new File(this.dirPath + "/" + dirPath);
 
         /*如果文件夹存在*/
         if (dir.exists()) {
@@ -49,9 +60,12 @@ public class BankIssuedDataUtils {
         }
     }
 
+    @Autowired
+    FilePathServiceIml filePathServiceIml;
+
     private void writeIntoTxt(List<BankIssuedData> dataList, String dirPath) throws IOException {
         for (BankIssuedData bankIssuedData : dataList) {
-            File file = new File("/home/oem/IdeaProjects/bankapi/" + "/" + dirPath + "/" + dirPath + "_" + bankIssuedData.getPCID() + ".txt");
+            File file = new File(this.filePath + "/" + dirPath + "/" + dirPath + "_" + bankIssuedData.getPCID() + ".txt");
 
             /*如果文件存在 直接写入数据*/
             if (file.exists()) {
@@ -65,8 +79,9 @@ public class BankIssuedDataUtils {
                         + bankIssuedData.getSFZH() + ","
                         + bankIssuedData.getBTMC() + "\n");
                 writer.flush();
+                writer.close();
             }
-            /*文件不存在，先创建文件，在写入数据*/
+            /*文件不存在，先创建文件，并且将文件路径保存至数据库并完成txt数据写入*/
             else {
                 if (file.createNewFile()) {
 
@@ -79,8 +94,9 @@ public class BankIssuedDataUtils {
                             + bankIssuedData.getSFZH() + ","
                             + bankIssuedData.getBTMC() + "\n");
                     writer.flush();
+                    writer.close();
+                    filePathServiceIml.saveLocalPath(new FilePath(1, bankIssuedData.getPCID(), file.getAbsolutePath(), "", '0'));
                 }
-
             }
 
         }

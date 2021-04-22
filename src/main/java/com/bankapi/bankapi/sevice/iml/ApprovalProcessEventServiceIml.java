@@ -2,7 +2,7 @@ package com.bankapi.bankapi.sevice.iml;
 
 import com.bankapi.bankapi.dao.dormatdao.ApprovalProcessEventDao;
 import com.bankapi.bankapi.model.dormat.ApprovalProcessEvent;
-import com.bankapi.bankapi.sevice.ApprovalProcessEventDaoService;
+import com.bankapi.bankapi.sevice.ApprovalProcessEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +21,29 @@ import java.util.List;
  */
 
 @Service
-public class ApprovalProcessEventDaoServiceIml implements ApprovalProcessEventDaoService {
+public class ApprovalProcessEventServiceIml implements ApprovalProcessEventService {
 
     @Autowired
     ApprovalProcessEventDao approvalProcessEventDao;
+
     @Override
     public List<ApprovalProcessEvent> getApprovalProcessEvents() {
         return approvalProcessEventDao.getApprovalProcessEvents();
     }
+
+    /**
+     * @param id 需要修改的批次id
+     * @return
+     */
+    @Override
+    public int statusUpdat(String id) {
+        int res = approvalProcessEventDao.statusUpdat(id);
+        if (res > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+
 }

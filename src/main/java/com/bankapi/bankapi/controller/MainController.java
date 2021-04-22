@@ -46,18 +46,6 @@ public class MainController {
         return departmentServiceIml.getDepartmentList();
     }
 
-    @RequestMapping(value = "UID", method = RequestMethod.GET)
-    @ResponseBody
-    public String UID() {
-        Long uid = System.currentTimeMillis();
-        if (uid % 2 == 0) {
-            return "public static final Long serialVersionUID =" + uid + "L;";
-        } else {
-            return "public static final Long serialVersionUID =" + "-" + uid + "L;";
-        }
-
-    }
-
     @Autowired
     UserStockRoomServiceIml userStockRoomServiceIml;
 
@@ -123,7 +111,7 @@ public class MainController {
     }
 
     @Autowired
-    ApprovalProcessEventDaoServiceIml approvalProcessEventDaoServiceIml;
+    ApprovalProcessEventServiceIml approvalProcessEventDaoServiceIml;
 
     @ResponseBody
     @RequestMapping(value = "getApprovalProcessEvents", method = RequestMethod.GET)

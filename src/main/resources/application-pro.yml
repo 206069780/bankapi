@@ -11,3 +11,8 @@ spring:
             username: DORMAT
             password: dormat
             driver-class-name: oracle.jdbc.driver.OracleDriver
+
+
+file:
+    dirPath: "src/main/resources/DIR_TXT"
+    filePath: "src/main/resources/DIR_TXT"

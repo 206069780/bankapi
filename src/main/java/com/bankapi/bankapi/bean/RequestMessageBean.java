@@ -12,7 +12,7 @@ import java.util.List;
  * @createDate: 2021-04-18  22:46
  * @description: RequestMessagebean 封装返回的的消息
  **/
-public class RequestMessageBean implements Serializable {
+public class RequestMessageBean extends AbstractResponseMessage implements Serializable {
 
     public static final Long serialVersionUID = 1618844236006L;
 

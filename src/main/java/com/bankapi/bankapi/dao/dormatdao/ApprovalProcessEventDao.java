@@ -2,6 +2,7 @@ package com.bankapi.bankapi.dao.dormatdao;
 
 import com.bankapi.bankapi.model.dormat.ApprovalProcessEvent;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,12 @@ import java.util.List;
 public interface ApprovalProcessEventDao {
 
     public List<ApprovalProcessEvent> getApprovalProcessEvents();
+
+    /**
+     * 银行受理状态更新
+     * @param id 需要修改的批次id
+     * @return 返回更新的批次数量
+     */
+    public int statusUpdat(@Param("id") String id);
+
 }

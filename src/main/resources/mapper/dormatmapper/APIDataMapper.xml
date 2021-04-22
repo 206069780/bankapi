@@ -6,16 +6,30 @@
         <id column="SUBSIDY_CODE" property="subsidyCode"/>
         <id column="BATCH_ID" property="barchId"/>
         <id column="FORM_SEQ_ID" property="platFormId"/>
+        <id column="LOCAL_PATH" property="filePath"/>
+        <id column="TOTAL_COUNT" property="count"/>
+        <id column="TOTAL_MONEY" property="amt"/>
+        <id column="DIGEST_CODE" property="digestCOde"/>
+        <id column="DIGEST_DESC" property="digestDesc"/>
     </resultMap>
     <select id="getApiDataList" resultMap="APIDataMap">
         select distinct APV_APPROVAL.DEPT_ID               as DEPT_ID,
                         APV_APPROVAL.SUBSIDY_CODE          as SUBSIDY_CODE,
-                        APV_APPROVAL_BATCH_DETAIL.BATCH_ID as BATCH_ID
+                        APV_APPROVAL_BATCH_DETAIL.BATCH_ID as BATCH_ID,
+                        FILE_PATH_ATBLE.LOCAL_PATH         as LOCAL_PATH,
+                        APV_APPROVAL.TOTAL_COUNT           as TOTAL_COUNT,
+                        APV_APPROVAL.TOTAL_MONEY           as TOTAL_MONEY,
+                        S_SUBSIDY.DIGEST_CODE              as DIGEST_CODE,
+                        S_SUBSIDY.DIGEST_DESC              as DIGEST_DESC
         from APV_APPROVAL_BATCH_DETAIL,
              APV_APPROVAL,
-             APV_APPROVAL_BATCH
+             APV_APPROVAL_BATCH,
+             FILE_PATH_ATBLE,
+             S_SUBSIDY
         where APV_APPROVAL.ID = APV_APPROVAL_BATCH_DETAIL.APPROVAL_ID
           and APV_APPROVAL_BATCH.APPROVAL_ID = APV_APPROVAL.ID
+          and FILE_PATH_ATBLE.BACTH_ID = APV_APPROVAL_BATCH_DETAIL.BATCH_ID
+          and S_SUBSIDY.CODE = APV_APPROVAL.SUBSIDY_CODE
           and APV_APPROVAL_BATCH.BANK_NOTICE_TYPE = '0'
     </select>
 </mapper>

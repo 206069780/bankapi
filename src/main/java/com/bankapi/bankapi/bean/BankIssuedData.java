@@ -1,5 +1,7 @@
 package com.bankapi.bankapi.bean;
 
+import java.io.Serializable;
+
 /**
  * @author Mr Fu
  * @version 1.0
@@ -10,27 +12,27 @@ package com.bankapi.bankapi.bean;
  * @date 2021/4/21 下午5:37
  * @Description 银行获取数据生成
  */
-public class BankIssuedData {
+public class BankIssuedData implements Serializable {
 
-    /**
-     * 批次明细ID
-     * 姓名
-     * 银行卡号
-     * 应发金额
-     * 持卡人身份证号
-     * 补贴项目名称
-     */
+    /*serialVersionUID*/
+    public static final Long serialVersionUID = 1619072002460L;
 
+    /*批次明细ID*/
     private String PCID;
 
+    /*姓名*/
     private String name;
 
+    /*银行卡号*/
     private String bankID;
 
+    /*应发金额*/
     private String mory;
 
+    /*持卡人身份证号*/
     private String SFZH;
 
+    /*补贴项目名称*/
     private String BTMC;
 
     public BankIssuedData() {

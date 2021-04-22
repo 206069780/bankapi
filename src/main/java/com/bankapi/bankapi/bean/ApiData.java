@@ -15,13 +15,13 @@ import java.io.Serializable;
 public class ApiData implements Serializable {
 
     /**
-     *        "platformId": "1281258346801557504", //编号
-     *
-     *        "subsidyCode": "1223", //补贴项目编号
-     *
-     *        "deptId": "283",    //部门编号
-     *
-     *        "batchId": "20200709551" // 批次编号
+     * "platformId": "1281258346801557504", //编号
+     * <p>
+     * "subsidyCode": "1223", //补贴项目编号
+     * <p>
+     * "deptId": "283",    //部门编号
+     * <p>
+     * "batchId": "20200709551" // 批次编号
      **/
     public static final Long serialVersionUID = -1618967980035L;
 
@@ -34,6 +34,27 @@ public class ApiData implements Serializable {
     /*部门编号*/
     private String departmentId;
 
+    /*文件地址*/
+    private String filePath;
+
+    /*加密*/
+    private String md5;
+
+    /*发放人数*/
+    private int count;
+
+    /*发放金额*/
+    private int amt;
+
+    /*银行摘要编码*/
+    private String digestCOde;
+
+    /*摘要描述*/
+    private String digestDesc;
+
+    /*重发人数*/
+    private int retryCount;
+
     /*批次编号*/
     private String barchId;
 
@@ -41,10 +62,17 @@ public class ApiData implements Serializable {
 
     }
 
-    public ApiData(String platFormId, String subsidyCode, String departmentId, String barchId) {
+    public ApiData(String platFormId, String subsidyCode, String departmentId, String filePath, String md5, int count, int amt, String digestCOde, String digestDesc, int retryCount, String barchId) {
         this.platFormId = platFormId;
         this.subsidyCode = subsidyCode;
         this.departmentId = departmentId;
+        this.filePath = filePath;
+        this.md5 = md5;
+        this.count = count;
+        this.amt = amt;
+        this.digestCOde = digestCOde;
+        this.digestDesc = digestDesc;
+        this.retryCount = retryCount;
         this.barchId = barchId;
     }
 
@@ -80,13 +108,60 @@ public class ApiData implements Serializable {
         this.barchId = barchId;
     }
 
-    @Override
-    public String toString() {
-        return "ApiData{" +
-                "platFormId:'" + platFormId + '\'' +
-                ", subsidyCod:'" + subsidyCode + '\'' +
-                ", departmentId:'" + departmentId + '\'' +
-                ", barchId:'" + barchId + '\'' +
-                '}';
+    public String getFilePath() {
+        return filePath;
     }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getAmt() {
+        return amt;
+    }
+
+    public void setAmt(int amt) {
+        this.amt = amt;
+    }
+
+    public String getDigestCOde() {
+        return digestCOde;
+    }
+
+    public void setDigestCOde(String digestCOde) {
+        this.digestCOde = digestCOde;
+    }
+
+    public String getDigestDesc() {
+        return digestDesc;
+    }
+
+    public void setDigestDesc(String digestDesc) {
+        this.digestDesc = digestDesc;
+    }
+
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+
 }
