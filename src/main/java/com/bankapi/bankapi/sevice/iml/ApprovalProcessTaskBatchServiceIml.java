@@ -23,8 +23,19 @@ public class ApprovalProcessTaskBatchServiceIml implements ApprovalProcessTaskBa
 
     @Autowired
     ApprovalProcessTaskBatchDao approvalProcessTaskBatchDao;
+
     @Override
     public List<ApprovalProcessTaskBatch> getApprovalProcessTasks() {
         return approvalProcessTaskBatchDao.getApprovalProcessTaskBatchList();
+    }
+
+    @Override
+    public boolean updateStatus(String id,String status) {
+
+        if (id != null && !id.isEmpty()) {
+            return approvalProcessTaskBatchDao.updateStatus(id,status) > 0;
+        } else {
+            return false;
+        }
     }
 }

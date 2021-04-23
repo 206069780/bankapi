@@ -21,5 +21,5 @@ public interface ApprovalProcessEventDetailsDao {
      * @param batchId
      * @return
      */
-    public int statusUpdate(@Param("batchId") String batchId);
+    public int statusUpdate(@Param("batchId") String batchId,@Param("status") String status);
 }

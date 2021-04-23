@@ -1,22 +1,24 @@
 package com.bankapi.bankapi.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bankapi.bankapi.bean.ApiData;
-import com.bankapi.bankapi.bean.ParamResponseBean;
-import com.bankapi.bankapi.bean.ParamResponseMessage;
-import com.bankapi.bankapi.bean.RequestMessageBean;
+import com.bankapi.bankapi.bean.*;
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
 import com.bankapi.bankapi.sevice.ApprovalProcessEventDetailsService;
 import com.bankapi.bankapi.sevice.iml.APIDataServiceIml;
 import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
 import com.bankapi.bankapi.sevice.iml.BankGetDataParamServiceIml;
+import com.bankapi.bankapi.utils.BankReplyMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,18 +88,16 @@ public class BankController {
         String time = timeFormat.format(new Date());
         char status;
 
-        System.out.println(batchID);
-        int approvalProcessEventtatus =
-                approvalProcessEventDaoServiceIml.statusUpdat(batchID);
+        int approvalProcessEventtatus = approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
 
-        int approvalProcessEventDetails = approvalProcessEventDetailsService.statusUpdate(batchID);
+        int approvalProcessEventDetails = approvalProcessEventDetailsService.statusUpdate(batchID, "0");
 
-        int saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
+        boolean saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
                 1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'
         ));
         if (approvalProcessEventtatus == 1
                 && approvalProcessEventDetails == 1
-                && saveParameter == 1
+                && saveParameter
         ) {
             status = '1';
             return JSONObject.toJSON(
@@ -124,4 +124,32 @@ public class BankController {
         }
     }
 
+    @Autowired
+    BankReplyMessage bankReplyMessage;
+
+    @RequestMapping(value = "postfile", method = RequestMethod.POST)
+    @ResponseBody
+    public Object postfile(@RequestBody MultipartFile file) {
+
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String path = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
+            File dest = new File(path + fileName);
+            try {
+                file.transferTo(dest);
+                if (bankReplyMessage.readTxt(dest.getAbsolutePath())) {
+                    return "{\n" +
+                            "\"status\": 200,\n" +
+                            "\"message\": \"资金发放结果反馈成功！\"\n" +
+                            "}";
+                } else return "false";
+            } catch (IOException e) {
+                return "false";
+
+            }
+        } else {
+            return "文件上传失败";
+        }
+
+    }
 }

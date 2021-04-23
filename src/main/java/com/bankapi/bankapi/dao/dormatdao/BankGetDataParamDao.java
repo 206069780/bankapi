@@ -2,6 +2,7 @@ package com.bankapi.bankapi.dao.dormatdao;
 
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Mr Fu
@@ -18,8 +19,17 @@ public interface BankGetDataParamDao {
 
     /**
      * 保存银行受理的批次信息
+     *
      * @param bank 批次相关信息
      * @return 增加的数据行数
      */
     public int DataParamSave(BankGetDataParam bank);
+
+    /**
+     * 银行受理结果反馈 状态更新
+     *
+     * @param id
+     * @return
+     */
+    public boolean DataParamUpDataParam(@Param("status") String status, @Param("id") String id);
 }

@@ -31,4 +31,10 @@
         from APV_APPROVAL
     </select>
 
+    <update id="updateStatus" parameterType="java.lang.String">
+        update APV_APPROVAL
+        set STATUS=#{status}
+        where ID = (select distinct APPROVAL_ID from APV_APPROVAL_BATCH_DETAIL where BATCH_ID = #{id})
+    </update>
+
 </mapper>

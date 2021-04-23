@@ -1,6 +1,7 @@
 package com.bankapi.bankapi.sevice;
 
 import com.bankapi.bankapi.model.dormat.ApprovalProcessTaskBatch;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,12 @@ public interface ApprovalProcessTaskBatchService {
 
 
     public List<ApprovalProcessTaskBatch> getApprovalProcessTasks();
+
+    /**
+     * 银行反馈数据更新
+     *
+     * @param status
+     * @return
+     */
+    public boolean updateStatus(String status, String id);
 }

@@ -27,6 +27,6 @@ public interface ApprovalProcessEventDao {
      * @param id 需要修改的批次id
      * @return 返回更新的批次数量
      */
-    public int statusUpdat(@Param("id") String id);
+    public int statusUpdat(@Param("id") String id,@Param("types") String types, @Param("status") String status);
 
 }

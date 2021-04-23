@@ -41,8 +41,8 @@
 
     <update id="statusUpdat" parameterType="java.lang.String">
         UPDATE APV_APPROVAL_BATCH
-        set BANK_NOTICE_TYPE='2',
-            STATUS='1'
+        set BANK_NOTICE_TYPE=#{types},
+            STATUS=#{status}
         where ID = #{id}
     </update>
 </mapper>

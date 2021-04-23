@@ -19,5 +19,5 @@ public interface ApprovalProcessEventDetailsService {
      * @param batchId
      * @return
      */
-    public int statusUpdate(@Param("batchId") String batchId);
+    public int statusUpdate(String batchId ,String status);
 }

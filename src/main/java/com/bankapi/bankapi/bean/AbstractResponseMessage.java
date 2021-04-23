@@ -11,5 +11,4 @@ package com.bankapi.bankapi.bean;
  * @Description 返回消息抽象类
  */
 public abstract  class  AbstractResponseMessage {
-
 }

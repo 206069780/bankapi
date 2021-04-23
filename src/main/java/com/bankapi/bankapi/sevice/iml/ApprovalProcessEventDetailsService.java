@@ -20,7 +20,7 @@ public class ApprovalProcessEventDetailsService implements com.bankapi.bankapi.s
     @Autowired
     ApprovalProcessEventDetailsDao approvalProcessEventDetailsDao;
     @Override
-    public int statusUpdate(String batchId) {
-        return approvalProcessEventDetailsDao.statusUpdate(batchId);
+    public int statusUpdate(String batchId,String status) {
+        return approvalProcessEventDetailsDao.statusUpdate(batchId,status);
     }
 }

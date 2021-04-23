@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bankapi.bankapi.dao.dormatdao.ApprovalBatchReplyDao">
+    <resultMap id="ApprovalBatchReplyMap" type="com.bankapi.bankapi.model.dormat.ApprovalBatchReply">
+        <id property="id" column="ID"/>
+        <id property="approvalId" column="APPROVAL_ID"/>
+        <id property="batchId" column="BATCH_ID"/>
+        <id property="detailId" column="DETAIL_ID"/>
+        <id property="bankReolyId" column="BANK_REPLY_ID"/>
+        <id property="name" column="NAME"/>
+        <id property="bankholder" column="BANK_HOLDER"/>
+        <id property="totalMoney" column="TOTAL_MONEY"/>
+        <id property="replyMoney" column="REPLY_MONEY"/>
+        <id property="date" column="HANDED_OUT_DATE"/>
+        <id property="replyStatus" column="REPLY_STATUS"/>
+        <id property="remark" column="REMARK"/>
+        <id property="opertor" column="CREATE_USER_ID"/>
+        <id property="createTime" column="CREATE_TIME"/>
+    </resultMap>
+    <insert id="approvaDateSave" parameterType="com.bankapi.bankapi.model.dormat.ApprovalBatchReply">
+        insert into APV_APPROVAL_BATCH_REPLY(ID, APPROVAL_ID, BATCH_ID, DETAIL_ID,
+                                             BANK_REPLY_ID, NAME, BANK_HOLDER, TOTAL_MONEY, REPLY_MONEY,
+                                             HANDED_OUT_DATE, REPLY_STATUS, REMARK, CREATE_USER_ID, CREATE_TIME)
+        values (#{id}, #{approvalId}, #{batchId},
+                #{detailId}, #{bankReolyId}, #{name},
+                #{bankholder}, #{totalMoney}, #{replyMoney},
+                #{date}, #{replyStatus}, #{remark},
+                #{opertor}, #{createTime})
+    </insert>
+
+    <select id="getapprovalId" resultType="hashmap">
+        select ID, APPROVAL_ID
+        from APV_APPROVAL_BATCH_DETAIL
+        where BATCH_ID = #{BATCH_ID}
+          and BANK_NO = #{BANK_NO}
+    </select>
+</mapper>

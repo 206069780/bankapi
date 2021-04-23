@@ -1,6 +1,7 @@
 package com.bankapi.bankapi.sevice;
 
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author Mr Fu
@@ -19,7 +20,15 @@ public interface BankGetDataParamService {
      * 保存银行受理的批次信息
      *
      * @param bank 批次相关信息
-     * @return 增加的数据行数
+     * @return 增加的数据是否成功
      */
-    public int DataParamSave(BankGetDataParam bank);
+    public boolean DataParamSave(BankGetDataParam bank);
+
+    /**
+     * 银行受理结果反馈 状态更新
+     *
+     * @param id
+     * @return
+     */
+    public boolean DataParamUpDataParam(String status, String id);
 }
