@@ -4,6 +4,8 @@ import com.bankapi.bankapi.model.dormat.BankGetDataParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author Mr Fu
  * @version 1.0
@@ -32,4 +34,16 @@ public interface BankGetDataParamDao {
      * @return
      */
     public boolean DataParamUpDataParam(@Param("status") String status, @Param("id") String id);
+
+    /**
+     * 获取正在受理的批次号
+     */
+    public List<BankGetDataParam> getParam();
+
+    /**
+     * 获取结束的批次信息
+     *
+     * @return
+     */
+    List<BankGetDataParam> getFinish();
 }

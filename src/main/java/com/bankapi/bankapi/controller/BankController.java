@@ -1,5 +1,6 @@
 package com.bankapi.bankapi.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bankapi.bankapi.bean.*;
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
@@ -74,6 +75,7 @@ public class BankController {
     @ResponseBody
     public Object bankParam(@RequestBody JSONObject jsonObject) throws ParseException {
 
+        /*请求传递的数据*/
         String platformId = (String) jsonObject.get("platformId");
         String paltformSeqId = (String) jsonObject.get("paltformSeqId");
         String transCode = (String) jsonObject.get("transCode");
@@ -82,12 +84,14 @@ public class BankController {
         String subsidyCode = jsonObject.getString("subsidyCode");
         String departmentId = jsonObject.getString("departmentId");
 
+        /*生成时间*/
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         DateFormat timeFormat = new SimpleDateFormat("HHmmss");
         String date = dateFormat.format(new Date());
         String time = timeFormat.format(new Date());
         char status;
 
+        /*更新批次状态*/
         int approvalProcessEventtatus = approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
 
         int approvalProcessEventDetails = approvalProcessEventDetailsService.statusUpdate(batchID, "0");
@@ -95,34 +99,35 @@ public class BankController {
         boolean saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
                 1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'
         ));
-        if (approvalProcessEventtatus == 1
-                && approvalProcessEventDetails == 1
-                && saveParameter
+        if (approvalProcessEventtatus == 1 && approvalProcessEventDetails == 1 && saveParameter
         ) {
             status = '1';
-            return JSONObject.toJSON(
-                    new ParamResponseBean(
-                            platformId, paltformSeqId, date, time, transCode, sign,
-                            new ParamResponseMessage(
-                                    batchID,
-                                    status
-                            )
-                    )
-            );
         } else {
             status = '0';
-            return
-                    JSONObject.toJSON(
-                            new ParamResponseBean(
-                                    platformId, paltformSeqId, date, time, transCode, sign,
-                                    new ParamResponseMessage(
-                                            batchID,
-                                            status
-                                    )
-                            )
-                    );
         }
+        return JSONObject.toJSON(
+                new ParamResponseBean(
+                        platformId, paltformSeqId, date, time, transCode, sign,
+                        new ParamResponseMessage(
+                                batchID,
+                                status
+                        )
+                )
+        );
     }
+
+    @RequestMapping(value = "getParam", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BankGetDataParam> getParam() {
+        return bankGetDataParamServiceIml.getParam();
+    }
+
+    @RequestMapping(value = "finish", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BankGetDataParam> getfinish() {
+        return bankGetDataParamServiceIml.getfinish();
+    }
+
 
     @Autowired
     BankReplyMessage bankReplyMessage;
@@ -139,13 +144,12 @@ public class BankController {
                 file.transferTo(dest);
                 if (bankReplyMessage.readTxt(dest.getAbsolutePath())) {
                     return "{\n" +
-                            "\"status\": 200,\n" +
-                            "\"message\": \"资金发放结果反馈成功！\"\n" +
+                            "\"status\":200,\n" +
+                            "\"message\":\"资金发放结果反馈成功！\"\n" +
                             "}";
                 } else return "false";
             } catch (IOException e) {
                 return "false";
-
             }
         } else {
             return "文件上传失败";

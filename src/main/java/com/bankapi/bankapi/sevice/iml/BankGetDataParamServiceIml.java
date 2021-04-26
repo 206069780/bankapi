@@ -6,6 +6,8 @@ import com.bankapi.bankapi.sevice.BankGetDataParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Mr Fu
  * @version 1.0
@@ -40,11 +42,21 @@ public class BankGetDataParamServiceIml implements BankGetDataParamService {
     }
 
     @Override
-    public boolean DataParamUpDataParam(String status,String id) {
-        if (status!=null&&id!=null&&!status.isEmpty()&&!id.isEmpty()) {
+    public boolean DataParamUpDataParam(String status, String id) {
+        if (status != null && id != null && !status.isEmpty() && !id.isEmpty()) {
             return bankGetDataParamDao.DataParamUpDataParam(status, id);
         }
         return false;
+    }
+
+    @Override
+    public List<BankGetDataParam> getParam() {
+        return bankGetDataParamDao.getParam();
+    }
+
+    @Override
+    public List<BankGetDataParam> getfinish() {
+        return bankGetDataParamDao.getFinish();
     }
 
 }

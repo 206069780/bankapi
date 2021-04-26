@@ -26,4 +26,16 @@
         where BATCH_ID = #{id}
     </update>
 
+    <select id="getParam" resultMap="BankGetDataParamMap">
+        select *
+        from B_BANK_PARAMETER
+        where STATE = '0'
+    </select>
+
+    <select id="getFinish" resultMap="BankGetDataParamMap">
+        select distinct *
+        from B_BANK_PARAMETER
+        where STATE = '1'
+    </select>
+
 </mapper>
