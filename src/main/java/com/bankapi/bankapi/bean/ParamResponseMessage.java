@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @ClassName ParamResponseMessage
  * @Email fudaopin@gamil.com
  * @date 2021/4/22 下午2:10
- * @Description TODO
+ * @Description messageBean
  */
 public class ParamResponseMessage implements Serializable {
 

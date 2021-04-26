@@ -10,8 +10,8 @@
         <id property="totalMoney" column="TOTAL_MONEY"/>
         <id property="areadyPayCount" column="REPLY_COUNT"/>
         <id property="areadyPayTotalMoney" column="REPLY_MONEY"/>
-        <id property=" temp1" column="TEMP1"/>
-        <id property=" temp2" column="TEMP2"/>
+        <id property="temp1" column="TEMP1"/>
+        <id property="temp2" column="TEMP2"/>
         <id property="temp3" column="TEMP3"/>
         <id property="temp4" column="TEMP4"/>
         <id property="temp5" column="TEMP5"/>

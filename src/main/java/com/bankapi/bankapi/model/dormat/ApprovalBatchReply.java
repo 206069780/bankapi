@@ -12,7 +12,7 @@ import java.util.Date;
  * @ClassName ApprovalBatchReply
  * @Email fudaopin@gamil.com
  * @date 2021/4/23 上午9:47
- * @Description TODO
+ * @Description 银行返回参数
  */
 public class ApprovalBatchReply implements Serializable {
 

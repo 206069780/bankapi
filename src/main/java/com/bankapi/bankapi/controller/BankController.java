@@ -69,11 +69,10 @@ public class BankController {
      *
      * @param jsonObject
      * @return
-     * @throws ParseException
      */
     @RequestMapping(value = "param", method = RequestMethod.POST)
     @ResponseBody
-    public Object bankParam(@RequestBody JSONObject jsonObject) throws ParseException {
+    public Object bankParam(@RequestBody JSONObject jsonObject) {
 
         /*请求传递的数据*/
         String platformId = (String) jsonObject.get("platformId");
@@ -91,6 +90,7 @@ public class BankController {
         String time = timeFormat.format(new Date());
         char status;
 
+
         /*更新批次状态*/
         int approvalProcessEventtatus = approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
 
@@ -99,6 +99,7 @@ public class BankController {
         boolean saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
                 1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'
         ));
+
         if (approvalProcessEventtatus == 1 && approvalProcessEventDetails == 1 && saveParameter
         ) {
             status = '1';

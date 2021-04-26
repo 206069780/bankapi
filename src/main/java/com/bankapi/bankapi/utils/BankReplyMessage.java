@@ -51,6 +51,7 @@ public class BankReplyMessage {
 
         File file = new File(fileName);
         try {
+            boolean res1, res2, res3;
             InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line = "";
@@ -78,17 +79,20 @@ public class BankReplyMessage {
                 );
                 System.out.println(approvalBatchReply.getBatchId());
                 approvalBatchReplyDao.approvaDateSave(approvalBatchReply);
-                boolean res1 = bankGetDataParamServiceIml.DataParamUpDataParam(approvalBatchReply.getReplyStatus(), approvalBatchReply.getBatchId());
-                boolean res2 = approvalProcessEventDaoServiceIml.statusUpdat(approvalBatchReply.getBatchId(), "2", "1") > 0;
-                boolean res3 = approvalProcessTaskBatchDao.updateStatus(approvalBatchReply.getBatchId(), "2");
-                if (res3 && res1 && res2)
-                {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+
+                // 保存文件数据
+                res1 = bankGetDataParamServiceIml.DataParamUpDataParam(approvalBatchReply.getReplyStatus(), approvalBatchReply.getBatchId());
+
+                // 更新明细状态
+                res2 = approvalProcessEventDaoServiceIml.statusUpdat(approvalBatchReply.getBatchId(), "2", "2") > 0;
+
+                // 发放状态
+                res3 = approvalProcessTaskBatchDao.updateStatus(approvalBatchReply.getBatchId(), "2");
+
+                return res3 && res1 && res2;
             }
+
+
         } catch (IOException e) {
             return false;
         }

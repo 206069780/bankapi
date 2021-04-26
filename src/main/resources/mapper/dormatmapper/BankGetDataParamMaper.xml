@@ -20,6 +20,8 @@
                 #{deptId}, #{bacthId},
                 #{createdDate}, #{statusta})
     </insert>
+
+
     <update id="DataParamUpDataParam" parameterType="java.lang.String">
         update B_BANK_PARAMETER
         set STATE=#{status}
