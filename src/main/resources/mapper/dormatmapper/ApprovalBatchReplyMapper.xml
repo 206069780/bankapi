@@ -28,10 +28,17 @@
                 #{opertor}, #{createTime})
     </insert>
 
-    <select id="getapprovalId" resultType="hashmap">
+    <select id="getapprovalId" resultType="java.util.Map">
         select ID, APPROVAL_ID
         from APV_APPROVAL_BATCH_DETAIL
         where BATCH_ID = #{BATCH_ID}
           and BANK_NO = #{BANK_NO}
+    </select>
+
+    <!--查询 DETAIL_ID-->
+    <select id="hasDtilId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select  count(ID)
+        from APV_APPROVAL_BATCH_REPLY
+        where DETAIL_ID = #{id}
     </select>
 </mapper>

@@ -4,6 +4,7 @@ import com.bankapi.bankapi.bean.ApiData;
 import com.bankapi.bankapi.dao.dormatdao.APIDataDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,5 +19,5 @@ import java.util.List;
  */
 public interface APIDataService {
 
-    public List<ApiData> getApiDataList();
+    public List<ApiData> getApiDataList() throws IOException;
 }

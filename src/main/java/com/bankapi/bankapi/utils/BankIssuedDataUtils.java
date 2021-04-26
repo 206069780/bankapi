@@ -1,8 +1,10 @@
 package com.bankapi.bankapi.utils;
 
 import com.bankapi.bankapi.bean.BankIssuedData;
+import com.bankapi.bankapi.dao.dormatdao.ApprovalProcessEventDao;
 import com.bankapi.bankapi.dao.dormatdao.FilePathDao;
 import com.bankapi.bankapi.model.dormat.FilePath;
+import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
 import com.bankapi.bankapi.sevice.iml.FilePathServiceIml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,11 +63,12 @@ public class BankIssuedDataUtils {
     }
 
     @Autowired
-    FilePathServiceIml filePathServiceIml;
+    ApprovalProcessEventServiceIml approvalProcessEventServiceIml;
 
     private void writeIntoTxt(List<BankIssuedData> dataList, String dirPath) throws IOException {
         for (BankIssuedData bankIssuedData : dataList) {
-            File file = new File(this.filePath + "/" + dirPath + "/" + dirPath + "_" + bankIssuedData.getPCID() + ".txt");
+            String fileName = "REQ_"+ dirPath + "_" + bankIssuedData.getPCID() + ".txt";
+            File file = new File(this.filePath + "/" + dirPath + "/" +fileName);
 
             /*如果文件存在 直接写入数据*/
             if (file.exists()) {
@@ -95,7 +98,8 @@ public class BankIssuedDataUtils {
                             + bankIssuedData.getBTMC() + "\n");
                     writer.flush();
                     writer.close();
-                    filePathServiceIml.saveLocalPath(new FilePath(1, bankIssuedData.getPCID(), file.getAbsolutePath(), "", '0'));
+                    /*存入数据库*/
+                    approvalProcessEventServiceIml.updateFileName(bankIssuedData.getPCID(), fileName,CheckSum.fileCS(file.getAbsolutePath()));
                 }
             }
 

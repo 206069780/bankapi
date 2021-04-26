@@ -36,13 +36,20 @@ public class ApprovalProcessEventServiceIml implements ApprovalProcessEventServi
      * @return
      */
     @Override
-    public int statusUpdat(String id,String type,String status) {
-        int res = approvalProcessEventDao.statusUpdat(id,type, status);
+    public int statusUpdat(String id, String type, String status) {
+        int res = approvalProcessEventDao.statusUpdat(id, type, status);
         if (res > 0) {
             return 1;
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public boolean updateFileName(String id, String fileName, String md5) {
+        if (id == null || id.length() == 0 || fileName == null || fileName.length() == 0 || md5 == null || md5.length() == 0)
+            return false;
+        return approvalProcessEventDao.updateFileName(id, fileName, md5) > 0;
     }
 
 

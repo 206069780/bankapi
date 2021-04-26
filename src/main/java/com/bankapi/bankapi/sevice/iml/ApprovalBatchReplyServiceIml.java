@@ -46,4 +46,12 @@ public class ApprovalBatchReplyServiceIml implements ApprovalBatchReplyService {
         }
         return null;
     }
+
+    public boolean findByDtilId(Integer id) {
+        if (id != null)
+        {
+            return approvalBatchReplyDao.hasDtilId(id) > 0;
+        }
+        return false;
+    }
 }

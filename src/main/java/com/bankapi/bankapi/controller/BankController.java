@@ -57,7 +57,7 @@ public class BankController {
      */
     @RequestMapping(value = "api", method = RequestMethod.GET)
     @ResponseBody
-    public RequestMessageBean getapiData() {
+    public RequestMessageBean getapiData() throws IOException{
 
         List<ApiData> apiDataList = apiDataServiceIml.getApiDataList();
 
@@ -69,11 +69,10 @@ public class BankController {
      *
      * @param jsonObject
      * @return
-     * @throws ParseException
      */
     @RequestMapping(value = "param", method = RequestMethod.POST)
     @ResponseBody
-    public Object bankParam(@RequestBody JSONObject jsonObject) throws ParseException {
+    public Object bankParam(@RequestBody JSONObject jsonObject) {
 
         /*请求传递的数据*/
         String platformId = (String) jsonObject.get("platformId");
@@ -91,6 +90,7 @@ public class BankController {
         String time = timeFormat.format(new Date());
         char status;
 
+
         /*更新批次状态*/
         int approvalProcessEventtatus = approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
 
@@ -99,6 +99,7 @@ public class BankController {
         boolean saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
                 1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'
         ));
+
         if (approvalProcessEventtatus == 1 && approvalProcessEventDetails == 1 && saveParameter
         ) {
             status = '1';
@@ -136,24 +137,37 @@ public class BankController {
     @ResponseBody
     public Object postfile(@RequestBody MultipartFile file) {
 
+        if (file == null) {
+            return "文件上传错误";
+        }
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
             String path = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
             File dest = new File(path + fileName);
             try {
                 file.transferTo(dest);
-                if (bankReplyMessage.readTxt(dest.getAbsolutePath())) {
-                    return "{\n" +
-                            "\"status\":200,\n" +
-                            "\"message\":\"资金发放结果反馈成功！\"\n" +
-                            "}";
-                } else return "false";
+                JSONObject jsonObject = bankReplyMessage.readTxt(dest.getAbsolutePath());
+                int status = (int) jsonObject.get("status");
+                switch (status) {
+                    case 1:
+                        return "{\n" +
+                                "\"status\":200,\n" +
+                                "\"message\":\"资金发放结果反馈成功！\"\n" +
+                                "}";
+                    case 2:
+                        System.out.println(jsonObject.get("message"));
+                        return "{\n" +
+                                "\"status\":200,\n" +
+                                "\"message\":\"资金发放失败！\"\n" +
+                                "}";
+                }
             } catch (IOException e) {
-                return "false";
+                return e.getMessage();
             }
         } else {
             return "文件上传失败";
         }
+        return "";
 
     }
 }

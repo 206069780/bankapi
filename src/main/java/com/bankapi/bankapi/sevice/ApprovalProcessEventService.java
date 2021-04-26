@@ -26,4 +26,14 @@ public interface ApprovalProcessEventService {
      * @return 返回更新的批次数量
      */
     public int statusUpdat(String id, String type, String status);
+
+
+    /**
+     * 保存txt名字
+     * @param id
+     * @param fileName
+     * @param md5
+     * @return
+     */
+    public boolean updateFileName(String id ,String fileName,String md5);
 }

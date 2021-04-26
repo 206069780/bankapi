@@ -33,6 +33,50 @@
         <id column="CREATE_TIME" property="creaDate"/>
         <id column="UPDATE_TIME" property="updaDate"/>
     </resultMap>
+    <insert id="insertNewData" parameterType="com.bankapi.bankapi.model.dormat.ApprovalProcessEvent">
+        insert into APV_APPROVAL_BATCH(ID,
+                                       APPROVAL_ID,
+                                       TOTAL_COUNT,
+                                       TOTAL_MONEY,
+                                       REPLY_COUNT,
+                                       REPLY_MONEY,
+                                       CURRENT_NODE,
+                                       TEMPLATE_ID,
+                                       SF,
+                                       DY,
+                                       BANK_NOTICE_TYP,
+                                       RELEASE_NAME,
+                                       RELEASE_MD5,
+                                       RETRY_COUNT,
+                                       LAST_RETRY_TIME,
+                                       GS_ID,
+                                       REMARK,
+                                       STATUS,
+                                       CREATE_USER_ID,
+                                       CREATE_TIME
+                                           UPDATE_TIME)
+        values (#{id},
+                #{taskId},
+                #{readyTotalCount},
+                #{preTotalMoney},
+                #{readyTotalCount},
+                #{readyTotalMoney},
+                #{currentNode},
+                #{templateId},
+                #{isFirst},
+                #{isPrint},
+                #{bankNoticeStatus},
+                #{issuanceName},
+                #{issuanceMD5},
+                #{bankRetPayCount},
+                #{lastRetPayTime},
+                #{stockRoomId},
+                #{remark},
+                #{status},
+                #{operator},
+                #{creaDate},
+                #{updaDate})
+    </insert>
 
     <select id="getApprovalProcessEvents" resultMap="ApprovalProcessEventMap">
         select *
@@ -45,4 +89,12 @@
             STATUS=#{status}
         where ID = #{id}
     </update>
+    <update id="updateFileName">
+        update APV_APPROVAL_BATCH
+        set RELEASE_NAME = #{file},
+            RELEASE_MD5  =#{md5}
+        where ID = #{id}
+    </update>
+
+
 </mapper>

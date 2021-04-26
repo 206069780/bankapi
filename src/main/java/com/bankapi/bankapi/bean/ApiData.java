@@ -58,11 +58,20 @@ public class ApiData implements Serializable {
     /*批次编号*/
     private String barchId;
 
+    private String isFirst;
+
     public ApiData() {
 
     }
+    public String getIsFirst() {
+        return isFirst;
+    }
 
-    public ApiData(String platFormId, String subsidyCode, String departmentId, String filePath, String md5, int count, int amt, String digestCOde, String digestDesc, int retryCount, String barchId) {
+    public void setIsFirst(String isFirst) {
+        this.isFirst = isFirst;
+    }
+
+    public ApiData(String platFormId, String subsidyCode, String departmentId, String filePath, String md5, int count, int amt, String digestCOde, String digestDesc, int retryCount, String barchId, String isFirst) {
         this.platFormId = platFormId;
         this.subsidyCode = subsidyCode;
         this.departmentId = departmentId;
@@ -74,6 +83,7 @@ public class ApiData implements Serializable {
         this.digestDesc = digestDesc;
         this.retryCount = retryCount;
         this.barchId = barchId;
+        this.isFirst = isFirst;
     }
 
     public String getPlatFormId() {

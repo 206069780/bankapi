@@ -31,5 +31,7 @@ public interface ApprovalProcessTaskBatchDao {
      * @param id
      * @return
      */
-    public int updateStatus(@Param("id") String id,@Param("status")String status);
+    public int updateStatus(@Param("id") String id, @Param("status") String status);
+
+
 }

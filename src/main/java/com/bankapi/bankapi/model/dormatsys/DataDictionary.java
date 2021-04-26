@@ -11,7 +11,7 @@ import java.util.Date;
  * @ClassName DataDictionary
  * @Email fudaopin@gamil.com
  * @date 2021/4/20 上午9:47
- * @Description TODO
+ * @Description 数据字典
  */
 public class DataDictionary implements Serializable {
 
@@ -48,7 +48,8 @@ public class DataDictionary implements Serializable {
     private Date createTime;
 
 
-    public DataDictionary(){}
+    public DataDictionary() {
+    }
 
     public DataDictionary(Long id, String parentCode, String dataValue, String dataKey, String fixEdfix, String type, String remark, String status, String operator, Date createTime) {
         this.id = id;

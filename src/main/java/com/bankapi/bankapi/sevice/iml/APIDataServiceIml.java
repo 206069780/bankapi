@@ -3,10 +3,12 @@ package com.bankapi.bankapi.sevice.iml;
 import com.bankapi.bankapi.bean.ApiData;
 import com.bankapi.bankapi.dao.dormatdao.APIDataDao;
 import com.bankapi.bankapi.sevice.APIDataService;
+import com.bankapi.bankapi.utils.CheckSum;
 import com.bankapi.bankapi.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public class APIDataServiceIml implements APIDataService {
     StringUtils stringUtils;
 
     @Override
-    public List<ApiData> getApiDataList() {
+    public List<ApiData> getApiDataList() throws IOException {
 
         List<ApiData> list = apiDataDao.getApiDataList();
 

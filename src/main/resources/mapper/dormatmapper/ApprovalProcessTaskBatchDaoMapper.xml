@@ -10,8 +10,8 @@
         <id property="totalMoney" column="TOTAL_MONEY"/>
         <id property="areadyPayCount" column="REPLY_COUNT"/>
         <id property="areadyPayTotalMoney" column="REPLY_MONEY"/>
-        <id property=" temp1" column="TEMP1"/>
-        <id property=" temp2" column="TEMP2"/>
+        <id property="temp1" column="TEMP1"/>
+        <id property="temp2" column="TEMP2"/>
         <id property="temp3" column="TEMP3"/>
         <id property="temp4" column="TEMP4"/>
         <id property="temp5" column="TEMP5"/>
@@ -26,6 +26,7 @@
         <id property="createTime" column="CREATE_TIME"/>
     </resultMap>
 
+
     <select id="getApprovalProcessTaskBatchList" resultMap="ApprovalProcessTaskBatchMap">
         select *
         from APV_APPROVAL
@@ -36,5 +37,9 @@
         set STATUS=#{status}
         where ID = (select distinct APPROVAL_ID from APV_APPROVAL_BATCH_DETAIL where BATCH_ID = #{id})
     </update>
+
+
+
+
 
 </mapper>

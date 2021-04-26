@@ -21,7 +21,7 @@ import java.util.List;
  * @author: Mr.FU
  * @Email: fudaopin@gmail.com
  * @createDate: 2021-04-18  22:42
- * @description: TODO
+ * @description: 测试controller
  **/
 
 @Controller
@@ -142,8 +142,8 @@ public class MainController {
 
     @RequestMapping(value = "getLocalIndicatorAllocationList", method = RequestMethod.GET)
     @ResponseBody
-    public List<LocalIndicatorAllocation> getLocalIndicatorAllocationList(){
-       return localIndicatorAllocationServiceIml.getAllocation();
+    public List<LocalIndicatorAllocation> getLocalIndicatorAllocationList() {
+        return localIndicatorAllocationServiceIml.getAllocation();
     }
 
 }

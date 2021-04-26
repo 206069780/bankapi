@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @ClassName ApprovalProcessEventDetailsService
  * @Email fudaopin@gamil.com
  * @date 2021/4/22 下午3:59
- * @Description TODO
+ * @Description
  */
 @Service
 public class ApprovalProcessEventDetailsService implements com.bankapi.bankapi.sevice.ApprovalProcessEventDetailsService {

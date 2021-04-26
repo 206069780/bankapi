@@ -24,9 +24,20 @@ public interface ApprovalProcessEventDao {
 
     /**
      * 银行受理状态更新
+     *
      * @param id 需要修改的批次id
      * @return 返回更新的批次数量
      */
-    public int statusUpdat(@Param("id") String id,@Param("types") String types, @Param("status") String status);
+    public int statusUpdat(@Param("id") String id, @Param("types") String types, @Param("status") String status);
+
+    /**
+     * 保存流程数据
+     * @param approvalProcessEvent
+     * @return
+     */
+    public int insertNewData(ApprovalProcessEvent approvalProcessEvent);
+
+
+    public int updateFileName(@Param("id")String id ,@Param("md5")String md5 , @Param("file")String file);
 
 }

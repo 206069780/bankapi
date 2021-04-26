@@ -22,5 +22,7 @@ public interface ApprovalBatchReplyService {
     public int approvaDateSave(ApprovalBatchReply approvaDateSave);
 
 
-    public Map<BigDecimal, BigDecimal> getapprovalId(@Param("BATCH_ID") String BATCH_ID, @Param("BANK_NO") String BANK_NO);
+    public Map<BigDecimal, BigDecimal> getapprovalId(String BATCH_ID, String BANK_NO);
+
+    public boolean findByDtilId(Integer id);
 }
