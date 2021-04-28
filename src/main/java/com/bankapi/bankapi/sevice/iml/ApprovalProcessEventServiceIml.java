@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mr Fu
@@ -37,12 +39,23 @@ public class ApprovalProcessEventServiceIml implements ApprovalProcessEventServi
      */
     @Override
     public int statusUpdat(String id, String type, String status) {
+
+        if (id == null || id.trim().length() == 0 || type.trim().length() == 0 || type == null || status == null || status.trim().length() > 1) {
+            return 0;
+        }
         int res = approvalProcessEventDao.statusUpdat(id, type, status);
         if (res > 0) {
             return 1;
         } else {
             return 0;
         }
+    }
+
+    public boolean findByid(String id) {
+        if (id == null || id.trim().length() == 0) {
+            return false;
+        }
+        return approvalProcessEventDao.findByid(id) >0;
     }
 
     @Override
@@ -53,4 +66,12 @@ public class ApprovalProcessEventServiceIml implements ApprovalProcessEventServi
     }
 
 
+    public Map<String, String> getStatus(String batchID) {
+        if (batchID == null || batchID.isEmpty()) {
+            Map<String, String> map = new HashMap();
+            map.put("message", "无效id");
+            return map;
+        }
+        return approvalProcessEventDao.getStatus(batchID);
+    }
 }

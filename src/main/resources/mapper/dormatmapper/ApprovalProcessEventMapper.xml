@@ -82,6 +82,13 @@
         select *
         from APV_APPROVAL_BATCH
     </select>
+    <select id="findByid" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(ID)
+        from APV_APPROVAL_BATCH where ID=#{id}
+    </select>
+    <select id="getStatus" resultType="java.util.Map" parameterType="java.lang.String">
+        select STATUS,BANK_NOTICE_TYPE from APV_APPROVAL_BATCH where ID=#{ID}
+    </select>
 
     <update id="statusUpdat" parameterType="java.lang.String">
         UPDATE APV_APPROVAL_BATCH

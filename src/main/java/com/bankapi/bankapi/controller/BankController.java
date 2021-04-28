@@ -1,17 +1,19 @@
 package com.bankapi.bankapi.controller;
 
-import com.alibaba.fastjson.JSONArray;
+
 import com.alibaba.fastjson.JSONObject;
 import com.bankapi.bankapi.bean.*;
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
-import com.bankapi.bankapi.sevice.ApprovalProcessEventDetailsService;
 import com.bankapi.bankapi.sevice.iml.APIDataServiceIml;
+import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventDetailsServiceIml;
 import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
 import com.bankapi.bankapi.sevice.iml.BankGetDataParamServiceIml;
 import com.bankapi.bankapi.utils.AesUtils;
 import com.bankapi.bankapi.utils.BankReplyMessage;
-import lombok.extern.log4j.Log4j;
+import com.bankapi.bankapi.utils.SignUtil;
+
 import lombok.extern.log4j.Log4j2;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,12 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mr Fu
@@ -52,7 +52,7 @@ public class BankController {
     ApprovalProcessEventServiceIml approvalProcessEventDaoServiceIml;
 
     @Autowired
-    ApprovalProcessEventDetailsService approvalProcessEventDetailsService;
+    ApprovalProcessEventDetailsServiceIml approvalProcessEventDetailsServiceIml;
 
     @Autowired
     BankGetDataParamServiceIml bankGetDataParamServiceIml;
@@ -75,8 +75,8 @@ public class BankController {
     }
 
 
-    @Value("${KEY}")
-    public static String key;
+    @Value("${AESKEY}")
+    private String key;
 
     /**
      * 银行受理接口
@@ -89,19 +89,23 @@ public class BankController {
      */
     @RequestMapping(value = "param", method = RequestMethod.POST)
     @ResponseBody
-    public Object bankParam(@RequestBody JSONObject json) {
+    public Object bankParam(@RequestBody JSONObject json) throws Exception {
 
         //获取加密字符串
         String aesStr = (String) json.get("aesStr");
 
         //解密字符串 并转为json格式的文件
-        JSONObject jsonObject = JSONObject.parseObject(aesStr);
+        JSONObject jsonObject = JSONObject.parseObject(AesUtils.Decrypt(aesStr, key));
 
         /*请求传递的数据*/
+
+        //交易日期
+        String date = (String) jsonObject.get("platformTransDate");
+
         //流水号
         String platformId = (String) jsonObject.get("platformId");
         //流水号
-        String paltformSeqId = (String) jsonObject.get("paltformSeqId");
+        String paltformSeqId = (String) jsonObject.get("platformSeqId");
 
         //交易码
         String transCode = (String) jsonObject.get("transCode");
@@ -109,53 +113,88 @@ public class BankController {
         //签名
         String sign = (String) jsonObject.get("sign");
 
-        //批次id
-        String batchID = jsonObject.getString("batchID");
-
-        //部门号
-        String subsidyCode = jsonObject.getString("subsidyCode");
-
-        //部门id
-        String departmentId = jsonObject.getString("departmentId");
-
-        //交易日期
-        String date = (String) jsonObject.get("date");
-
         //时间
-        String time = (String) jsonObject.get("time");
+        String time = (String) jsonObject.get("platformTransTime");
 
-        //文件校验和
-        String md5 = (String) jsonObject.get("md5");
-
-        //发放的数量
-        int succCount = (int) jsonObject.get("succCount");
-
-        //发放的金额
-        int succAmt = (int) jsonObject.get("amt");
-
+        //dataString
         String dataString = (String) jsonObject.get("dataString");
 
-        String signChek = platformId+paltformSeqId+date+time+transCode+key+dataString;
+        /*生成签名*/
+        String signstr = SignUtil.getSign(platformId + paltformSeqId + date + time + transCode + key + dataString);
+        //签名比较
+        if (!signstr.equals(sign)) {
+            return "签名错误";
+        }
 
+        //将 dataString 转为json格式
+        JSONObject dataStringJson = JSONObject.parseObject(dataString);
 
+        //批次id
+        String batchID = dataStringJson.getString("batchId");
 
-        char status;
+        //部门号
+        String subsidyCode = dataStringJson.getString("subsidyCode");
 
+        //部门id
+        String departmentId = dataStringJson.getString("deptId");
 
-        /*更新批次状态*/
-        int approvalProcessEventtatus = approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
+        //文件校验和
+        String md5 = (String) dataStringJson.get("md5");
 
-        int approvalProcessEventDetails = approvalProcessEventDetailsService.statusUpdate(batchID, "0");
+        //发放的数量
+        int succCount = (int) dataStringJson.get("succCount");
 
-        boolean saveParameter = bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(
-                1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'
-        ));
+        //发放的金额
+        int succAmt = (int) dataStringJson.get("amt");
 
-        if (approvalProcessEventtatus == 1 && approvalProcessEventDetails == 1 && saveParameter
+        if (date.isEmpty() || date == null || platformId.isEmpty() || platformId == null ||
+                paltformSeqId.isEmpty() || paltformSeqId == null || transCode.isEmpty() ||
+                transCode == null || sign == null || sign.isEmpty() || time.isEmpty() ||
+                time == null || dataString == null || dataString.isEmpty() || batchID == null ||
+                batchID.isEmpty() || subsidyCode == null || subsidyCode.isEmpty() ||
+                departmentId == null || departmentId.isEmpty() || md5 == null || md5.isEmpty()
         ) {
-            status = '1';
+            return "参数不完全";
+        }
+
+        int status = 0;
+
+        /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */
+        if (approvalProcessEventDaoServiceIml.findByid(batchID)) {
+
+            //查询 batchID 的状态
+            Map<String, String> statusMap = approvalProcessEventDaoServiceIml.getStatus(batchID);
+
+            //如果批次已被受理，直接返回
+            if (statusMap.get("BANK_NOTICE_TYPE").equals("2") && statusMap.get("STATUS").equals("1")) {
+                return "批次已被受理，请勿重新提交";
+            }
+
+            //更新 APV_APPROVAL_BATCH 的状态
+            approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
+            log.info(batchID + " 已由系统受理，当前状态 审批中");
+
+            /* APV_APPROVAL_BATCH_DETAIL 状态更新：  3 发放成功  4 发放失败 */
+//            int approvalProcessEventDetails = approvalProcessEventDetailsServiceIml.statusUpdate(batchID, "0");
+
+            /*判断 B_BANK_PARAMETER 是否存在该条记录*/
+            if (bankGetDataParamServiceIml.findByid(batchID)){
+                return "B_BANK_PARAMETER 已存在该批次";
+            }
+
+            /* B_BANK_PARAMETER 受理进度 0：已受理；1：已反馈；2：发放异常 */
+            if (bankGetDataParamServiceIml.DataParamSave(
+                    new BankGetDataParam(
+                            1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0')
+            )) {
+                status = 1;
+                log.info(batchID + " save B_BANK_PARAMETER");
+            } else {
+                log.info("B_BANK_PARAMETER 无法存储: " + batchID);
+            }
         } else {
-            status = '0';
+            log.error("系统无法受理该批次[无法搜索到该批次]");
+            status = 105;
         }
         return JSONObject.toJSON(
                 new ParamResponseBean(

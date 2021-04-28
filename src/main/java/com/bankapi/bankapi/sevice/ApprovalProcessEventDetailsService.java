@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ApprovalProcessEventDetailsService {
     /**
-     * 银行返回数据受理状态更新
+     * 银行返状态更新
      *
      * @param batchId
      * @return

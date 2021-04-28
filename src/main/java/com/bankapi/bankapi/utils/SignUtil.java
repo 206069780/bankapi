@@ -35,4 +35,9 @@ public class SignUtil {
             return Hex.encodeHexString(digest.digest(str.getBytes(StandardCharsets.UTF_8)));
         }
     }
+
+    @Test
+    public void getSign() throws Exception {
+        System.out.println(getSign("13574791879710720002021042815530720210428155307P22100031234567891011111{\"status\": \"0\", \"batchId\": \"202102241\", \"subsidyCode\": \"B480000582\", \"deptId\": \"582\", \"fileName\": \"RSQ_20210224_202102241.txt\", \"md5\": \"**************************\", \"count\": 0, \"amt\": 0, \"succCount\": 0, \"succAmt\": 0}"));
+    }
 }

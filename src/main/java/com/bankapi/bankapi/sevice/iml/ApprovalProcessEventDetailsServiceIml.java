@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @Description
  */
 @Service
-public class ApprovalProcessEventDetailsService implements com.bankapi.bankapi.sevice.ApprovalProcessEventDetailsService {
+public class ApprovalProcessEventDetailsServiceIml implements com.bankapi.bankapi.sevice.ApprovalProcessEventDetailsService {
 
     @Autowired
     ApprovalProcessEventDetailsDao approvalProcessEventDetailsDao;

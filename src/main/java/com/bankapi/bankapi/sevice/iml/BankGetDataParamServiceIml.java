@@ -33,7 +33,7 @@ public class BankGetDataParamServiceIml implements BankGetDataParamService {
      */
     @Override
     public boolean DataParamSave(BankGetDataParam bank) {
-        if (bank != null) {
+        if (bank!=null) {
             if (bankGetDataParamDao.DataParamSave(bank) > 0) {
                 return true;
             }
@@ -59,4 +59,12 @@ public class BankGetDataParamServiceIml implements BankGetDataParamService {
         return bankGetDataParamDao.getFinish();
     }
 
+    public boolean findByid(String batchID) {
+
+        if (batchID == null && batchID.isEmpty()) {
+            return false;
+        }
+       return bankGetDataParamDao.findByid(batchID)>0;
+
+    }
 }

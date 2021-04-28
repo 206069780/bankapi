@@ -18,7 +18,7 @@ public class ParamResponseMessage implements Serializable {
 
     private String batchID;
 
-    private char status;
+    private int status;
 
     public String getBatchID() {
         return batchID;
@@ -28,7 +28,7 @@ public class ParamResponseMessage implements Serializable {
         this.batchID = batchID;
     }
 
-    public char getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -36,7 +36,7 @@ public class ParamResponseMessage implements Serializable {
         this.status = status;
     }
 
-    public ParamResponseMessage(String batchID, char status) {
+    public ParamResponseMessage(String batchID, int status) {
         this.batchID = batchID;
         this.status = status;
     }

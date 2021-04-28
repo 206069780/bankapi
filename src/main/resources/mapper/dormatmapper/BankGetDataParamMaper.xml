@@ -39,5 +39,9 @@
         from B_BANK_PARAMETER
         where STATE = '1'
     </select>
+    <select id="findByid" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select BATCH_ID
+        from BATCH_ID=#{id}
+    </select>
 
 </mapper>

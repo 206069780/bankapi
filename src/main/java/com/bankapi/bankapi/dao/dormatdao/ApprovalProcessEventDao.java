@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mr Fu
@@ -40,4 +41,7 @@ public interface ApprovalProcessEventDao {
 
     public int updateFileName(@Param("id")String id ,@Param("md5")String md5 , @Param("file")String file);
 
+    public int findByid(@Param("id") String id);
+
+   public Map<String, String> getStatus(String batchID);
 }
