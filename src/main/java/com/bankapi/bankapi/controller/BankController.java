@@ -75,9 +75,8 @@ public class BankController {
     }
 
 
-
     @Value("${KEY}")
-    public  static String key;
+    public static String key;
 
     /**
      * 银行受理接口
@@ -90,28 +89,56 @@ public class BankController {
      */
     @RequestMapping(value = "param", method = RequestMethod.POST)
     @ResponseBody
-    public Object bankParam(@RequestBody JSONObject json) throws Exception {
+    public Object bankParam(@RequestBody JSONObject json) {
 
         //获取加密字符串
         String aesStr = (String) json.get("aesStr");
 
         //解密字符串 并转为json格式的文件
-        JSONObject jsonObject =JSONObject.parseObject(aesStr);
+        JSONObject jsonObject = JSONObject.parseObject(aesStr);
 
         /*请求传递的数据*/
+        //流水号
         String platformId = (String) jsonObject.get("platformId");
+        //流水号
         String paltformSeqId = (String) jsonObject.get("paltformSeqId");
+
+        //交易码
         String transCode = (String) jsonObject.get("transCode");
+
+        //签名
         String sign = (String) jsonObject.get("sign");
+
+        //批次id
         String batchID = jsonObject.getString("batchID");
+
+        //部门号
         String subsidyCode = jsonObject.getString("subsidyCode");
+
+        //部门id
         String departmentId = jsonObject.getString("departmentId");
 
-        /*生成时间*/
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        DateFormat timeFormat = new SimpleDateFormat("HHmmss");
-        String date = dateFormat.format(new Date());
-        String time = timeFormat.format(new Date());
+        //交易日期
+        String date = (String) jsonObject.get("date");
+
+        //时间
+        String time = (String) jsonObject.get("time");
+
+        //文件校验和
+        String md5 = (String) jsonObject.get("md5");
+
+        //发放的数量
+        int succCount = (int) jsonObject.get("succCount");
+
+        //发放的金额
+        int succAmt = (int) jsonObject.get("amt");
+
+        String dataString = (String) jsonObject.get("dataString");
+
+        String signChek = platformId+paltformSeqId+date+time+transCode+key+dataString;
+
+
+
         char status;
 
 
@@ -196,6 +223,5 @@ public class BankController {
             return "文件上传错误";
         }
         return "出现未知错误！请稍后访问";
-
     }
 }

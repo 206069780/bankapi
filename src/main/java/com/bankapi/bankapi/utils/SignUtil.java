@@ -1,7 +1,13 @@
 package com.bankapi.bankapi.utils;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  * @author Mr Fu
@@ -19,18 +25,14 @@ public class SignUtil {
 
         if (str == null || str.length() == 0) {
             return "参与签名的字符串不能为空";
-        }
-        else {
-            byte [] bytes = Base64.decodeBase64(str);
-            StringBuilder buf = new StringBuilder(bytes.length * 2);
-
-            /*转换为十六进制的字符*/
-            for(byte b : bytes) { // 使用String的format方法进行转换
-
-                buf.append(String.format("%02x", b & 0xff));
+        } else {
+            MessageDigest digest = null;
+            try {
+                digest = MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
-            /*返回字符串*/
-            return buf.toString();
+            return Hex.encodeHexString(digest.digest(str.getBytes(StandardCharsets.UTF_8)));
         }
     }
 }

@@ -93,7 +93,6 @@ public class BankReplyMessage {
                             "",
                             new Date()
                     );
-
                     /*将文件内容存入 APV_APPROVAL_BATCH_REPLY*/
                     if (approvalBatchReplyServiceIml.approvaDateSave(approvalBatchReply) > 0) {
                         log.info(approvalBatchReply.getDetailId()+" "+line + "发放成功");
