@@ -159,7 +159,7 @@ public class BankController {
 
         int status = 0;
 
-        /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */
+        /*判断是否存在该批次*/
         if (approvalProcessEventDaoServiceIml.findByid(batchID)) {
 
             //查询 batchID 的状态
@@ -170,7 +170,7 @@ public class BankController {
                 return "批次已被受理，请勿重新提交";
             }
 
-            //更新 APV_APPROVAL_BATCH 的状态
+            /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */
             approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
             log.info(batchID + " 已由系统受理，当前状态 审批中");
 
@@ -187,8 +187,8 @@ public class BankController {
                     new BankGetDataParam(
                             1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0')
             )) {
-                status = 1;
-                log.info(batchID + " save B_BANK_PARAMETER");
+                status = 200;
+                log.info(batchID + " save B_BANK_PARAMETER 等待银行反馈");
             } else {
                 log.info("B_BANK_PARAMETER 无法存储: " + batchID);
             }
@@ -229,12 +229,14 @@ public class BankController {
     @ResponseBody
     public Object postfile(@RequestBody MultipartFile file) {
 
+        /* 判断 file 查看文件是否成功上传 */
         if (file == null) {
+            log.error("文件上传失败");
             return "文件上传错误";
         }
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
-            String path = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
+            String path = "/home/oem/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
             File dest = new File(path + fileName);
             try {
                 file.transferTo(dest);
@@ -249,13 +251,13 @@ public class BankController {
                     case 2:
                         log.error("发放失败" + jsonObject.get("fail") + "\n" + "失败原因：" + jsonObject.get("cause"));
                         return "{\n" +
-                                "\"status\":200,\n" +
+                                "\"status\":105,\n" +
                                 "\"message\":\"资金发放失败！\"\n" +
                                 "}";
                 }
             } catch (IOException e) {
-                log.error("文件保存出现异常");
-                return e.getMessage();
+                log.error(e.getMessage());
+                return "文件上传异常";
             }
         } else {
             log.error("文件上传错误");

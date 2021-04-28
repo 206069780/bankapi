@@ -27,4 +27,6 @@ public interface ApprovalBatchReplyDao {
     public Map<BigDecimal, BigDecimal> getapprovalId(@Param("BATCH_ID") String BATCH_ID, @Param("BANK_NO") String BANK_NO);
 
     public int hasDtilId(@Param("id") Integer id);
+
+    public String getLastestId();
 }

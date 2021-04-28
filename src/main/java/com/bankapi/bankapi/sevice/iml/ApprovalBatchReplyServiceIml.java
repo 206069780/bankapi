@@ -54,4 +54,8 @@ public class ApprovalBatchReplyServiceIml implements ApprovalBatchReplyService {
         }
         return false;
     }
+
+    public String getLastestId() {
+        return approvalBatchReplyDao.getLastestId();
+    }
 }
