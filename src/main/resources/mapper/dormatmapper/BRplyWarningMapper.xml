@@ -16,7 +16,7 @@
                                                CREATE_TIME)
         values (#{ID}, #{BATCH_ID}, #{DETAIL_ID}, #{RECORD_ID}, #{TYPE}, #{REMARK}, #{CREATE_USER_ID}, #{CREATE_TIME})
     </insert>
-    <select id="getLastestId" resultType="java.lang.Integer">
+    <select id="getLastestId" resultType="java.lang.String">
         select MAX(ID) from APV_APPROVAL_BATCH_WARNING
     </select>
     <select id="getUserId" resultType="java.lang.String" parameterType="java.lang.String">

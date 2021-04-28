@@ -27,7 +27,7 @@ public class BRplyWarningServiceIml implements BRplyWarningService {
     }
 
     @Override
-    public int getlastest() {
+    public String getlastest() {
         return bRplyWarningDao.getLastestId();
     }
 

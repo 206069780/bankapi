@@ -10,7 +10,7 @@ package com.bankapi.bankapi.sevice;
  * @description: BRplyWarning服务层
  **/
 public interface BRplyWarningService {
-    public int getlastest();
+    public String getlastest();
 
     public String getUserId(String batch_id);
 }

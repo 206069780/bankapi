@@ -109,10 +109,10 @@ public class BankReplyMessage {
                         log.info(line + " un insert  into APV_APPROVAL_BATCH_REPLY");
                     }
 
-                    int ID = bRplyWarningServiceIml.getlastest();
+                    int ID = Integer.parseInt(bRplyWarningServiceIml.getlastest()==null?"0":bRplyWarningServiceIml.getlastest());
                     String CREATE_USER_ID = bRplyWarningServiceIml.getUserId(BATCH_ID);
                     if (reStatus.equals("02")) {
-                        if (bRplyWarningServiceIml.save(new BRplyWarning(ID, BATCH_ID, DTID, id, "0", remark, String.valueOf(CREATE_USER_ID), new Date()))) {
+                        if (bRplyWarningServiceIml.save(new BRplyWarning(ID+1, BATCH_ID, DTID, id, "0", remark, String.valueOf(CREATE_USER_ID), new Date()))) {
                             log.error("[发放失败]" + line);
                             failList.add(line);
                         }

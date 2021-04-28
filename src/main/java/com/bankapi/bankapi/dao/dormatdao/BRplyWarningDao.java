@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Param;
 public interface BRplyWarningDao {
     public int save(BRplyWarning bRplyWarning);
 
-    public int getLastestId();
+    public String getLastestId();
 
     public String getUserId(@Param("id") String batch_id);
 }
