@@ -37,7 +37,7 @@
 
     <!--查询 DETAIL_ID-->
     <select id="hasDtilId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-        select  count(ID)
+        select  count(DETAIL_ID)
         from APV_APPROVAL_BATCH_REPLY
         where DETAIL_ID = #{id}
     </select>

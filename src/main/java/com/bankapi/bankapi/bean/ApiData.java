@@ -35,7 +35,7 @@ public class ApiData implements Serializable {
     private String departmentId;
 
     /*文件地址*/
-    private String filePath;
+    private String fileName;
 
     /*加密*/
     private String md5;
@@ -71,11 +71,11 @@ public class ApiData implements Serializable {
         this.isFirst = isFirst;
     }
 
-    public ApiData(String platFormId, String subsidyCode, String departmentId, String filePath, String md5, int count, int amt, String digestCOde, String digestDesc, int retryCount, String barchId, String isFirst) {
+    public ApiData(String platFormId, String subsidyCode, String departmentId, String fileName, String md5, int count, int amt, String digestCOde, String digestDesc, int retryCount, String barchId, String isFirst) {
         this.platFormId = platFormId;
         this.subsidyCode = subsidyCode;
         this.departmentId = departmentId;
-        this.filePath = filePath;
+        this.fileName = fileName;
         this.md5 = md5;
         this.count = count;
         this.amt = amt;
@@ -118,12 +118,12 @@ public class ApiData implements Serializable {
         this.barchId = barchId;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getMd5() {

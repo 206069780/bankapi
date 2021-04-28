@@ -38,8 +38,4 @@
         where ID = (select distinct APPROVAL_ID from APV_APPROVAL_BATCH_DETAIL where BATCH_ID = #{id})
     </update>
 
-
-
-
-
 </mapper>

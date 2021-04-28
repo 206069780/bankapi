@@ -18,7 +18,7 @@ public class SignUtil {
     public static String getSign(String str) {
 
         if (str == null || str.length() == 0) {
-            return "参与签名的字符串为空，返回的为null";
+            return "参与签名的字符串不能为空";
         }
         else {
             byte [] bytes = Base64.decodeBase64(str);

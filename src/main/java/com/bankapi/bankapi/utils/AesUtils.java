@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class AesUtils {
 
-    @Value("${KEY}")
-public  static String key;
     // 加密
     public static String Encrypt(String sSrc, String sKey) throws Exception {
         if (sKey == null) {

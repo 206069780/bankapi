@@ -6,11 +6,10 @@
         <id column="SUBSIDY_CODE" property="subsidyCode"/>
         <id column="BATCH_ID" property="barchId"/>
         <id column="FORM_SEQ_ID" property="platFormId"/>
-        <id column="LOCAL_PATH" property="filePath"/>
         <id column="TOTAL_COUNT" property="count"/>
         <id column="TOTAL_MONEY" property="amt"/>
-        <id column="fileName" property="filePath"/>
-        <id column="MD5" property="md5"/>
+        <id column="MD5" property="fileName"/>
+        <id column="fileName" property="md5"/>
         <id column="DIGEST_DESC" property="digestDesc"/>
         <id column="DIGEST_CODE" property="digestCOde"/>
         <id column="SF" property="isFirst"/>
