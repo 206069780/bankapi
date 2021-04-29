@@ -121,6 +121,7 @@ public class BankController {
 
         /*生成签名*/
         String signstr = SignUtil.getSign(platformId + paltformSeqId + date + time + transCode + key + dataString);
+
         //签名比较
         if (!signstr.equals(sign)) {
             return "{status:105,message:\"签名错误\"}";
@@ -170,53 +171,36 @@ public class BankController {
                 return "{status:105,message:\"批次已被受理,请勿重复提交受理\"}";
             }
 
+            /*判断 B_BANK_PARAMETER 是否存在该条记录*/
+            if (bankGetDataParamServiceIml.findByid(batchID)) {
+
+                return "{status:105,message:\"批次已被受理,请勿重复提交受理\"}";
+            }
+
             /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */
             approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
             log.info(batchID + " 已由系统受理，当前状态 审批中");
 
+            /* B_BANK_PARAMETER 受理进度 0：已受理；1：已反馈；2：发放异常 */
+            if (bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'))) {
+                status = 200;
+                log.info(batchID + " save B_BANK_PARAMETER 等待银行反馈");
+
+            } else {
+                log.info("B_BANK_PARAMETER 无法存储: " + batchID);
+                return "{status:105,message:\"受理异常中断\"}";
+            }
+
             /* APV_APPROVAL_BATCH_DETAIL 状态更新：  3 发放成功  4 发放失败 */
 //            int approvalProcessEventDetails = approvalProcessEventDetailsServiceIml.statusUpdate(batchID, "0");
 
-            /*判断 B_BANK_PARAMETER 是否存在该条记录*/
-            if (bankGetDataParamServiceIml.findByid(batchID)) {
-                return "B_BANK_PARAMETER 已存在该批次";
-            }
 
-            /* B_BANK_PARAMETER 受理进度 0：已受理；1：已反馈；2：发放异常 */
-            if (bankGetDataParamServiceIml.DataParamSave(
-                    new BankGetDataParam(
-                            1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0')
-            )) {
-                status = 200;
-                log.info(batchID + " save B_BANK_PARAMETER 等待银行反馈");
-            } else {
-                log.info("B_BANK_PARAMETER 无法存储: " + batchID);
-            }
         } else {
             log.error("系统无法受理该批次[无法搜索到该批次]");
             status = 105;
         }
-        return JSONObject.toJSON(
-                new ParamResponseBean(
-                        platformId, paltformSeqId, date, time, transCode, sign,
-                        new ParamResponseMessage(
-                                batchID,
-                                status
-                        )
-                )
-        );
-    }
-
-    @RequestMapping(value = "getParam", method = RequestMethod.GET)
-    @ResponseBody
-    public List<BankGetDataParam> getParam() {
-        return bankGetDataParamServiceIml.getParam();
-    }
-
-    @RequestMapping(value = "finish", method = RequestMethod.GET)
-    @ResponseBody
-    public List<BankGetDataParam> getfinish() {
-        return bankGetDataParamServiceIml.getfinish();
+        return JSONObject.toJSON(new ParamResponseBean(platformId, paltformSeqId, date, time, transCode, sign,
+                new ParamResponseMessage(batchID, status)));
     }
 
     /**
@@ -264,5 +248,18 @@ public class BankController {
             return "文件上传错误";
         }
         return "出现未知错误！请稍后访问";
+    }
+
+
+    @RequestMapping(value = "getParam", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BankGetDataParam> getParam() {
+        return bankGetDataParamServiceIml.getParam();
+    }
+
+    @RequestMapping(value = "finish", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BankGetDataParam> getfinish() {
+        return bankGetDataParamServiceIml.getfinish();
     }
 }
