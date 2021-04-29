@@ -1,14 +1,10 @@
 package com.bankapi.bankapi.utils;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
-import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * @author Mr Fu

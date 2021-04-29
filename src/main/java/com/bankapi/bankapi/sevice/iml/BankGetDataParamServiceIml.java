@@ -64,7 +64,7 @@ public class BankGetDataParamServiceIml implements BankGetDataParamService {
         if (batchID == null && batchID.isEmpty()) {
             return false;
         }
-       return bankGetDataParamDao.findByid(batchID)>0;
+       return bankGetDataParamDao.findByid(batchID)!=null;
 
     }
 }

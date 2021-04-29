@@ -147,7 +147,7 @@ public class BankReplyMessage {
                     }
 
                     /* B_BANK_PARAMETER 受理结果状态更新 */
-                    if (bankGetDataParamServiceIml.DataParamUpDataParam("0", approvalBatchReply.getBatchId())) {
+                    if (bankGetDataParamServiceIml.DataParamUpDataParam("1", approvalBatchReply.getBatchId())) {
                         log.info("Update B_BANK_PARAMETER status ");
                     } else {
                         log.error("un Update B_BANK_PARAMETER status ");

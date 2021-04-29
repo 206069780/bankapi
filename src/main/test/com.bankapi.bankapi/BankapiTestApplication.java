@@ -1,5 +1,6 @@
 package com.bankapi.bankapi;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bankapi.bankapi.bean.ApiData;
 import com.bankapi.bankapi.bean.BankIssuedData;
 import com.bankapi.bankapi.dao.dormatdao.APIDataDao;
@@ -8,10 +9,7 @@ import com.bankapi.bankapi.dao.dormatdao.BankIssuedDataDao;
 import com.bankapi.bankapi.model.dormat.ApprovalBatchReply;
 import com.bankapi.bankapi.sevice.iml.ApprovalBatchReplyServiceIml;
 import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
-import com.bankapi.bankapi.utils.AesUtils;
-import com.bankapi.bankapi.utils.BankIssuedDataUtils;
-import com.bankapi.bankapi.utils.BankReplyMessage;
-import com.bankapi.bankapi.utils.StringUtils;
+import com.bankapi.bankapi.utils.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,11 @@ public class BankapiTestApplication {
     @Autowired
     StringUtils stringUtils;
 
+    @Autowired
+    ParamUtils paramUtils;
+
     @Test
+
     public void testTest() {
 
         List<ApiData> list = apiDataDao.getApiDataList();
@@ -77,7 +79,7 @@ public class BankapiTestApplication {
     @Test
     public void updateApprovalProcessEventServiceIml() {
 
-        int i = approvalProcessEventServiceIml.statusUpdat("2021030826","2","1");
+        int i = approvalProcessEventServiceIml.statusUpdat("2021030826", "2", "1");
         System.out.println(i);
     }
 
@@ -99,10 +101,11 @@ public class BankapiTestApplication {
 
     @Value("${AESKEY}")
     String key;
+
     @Test
     public void aesUtilsTest() throws Exception {
 
-        System.out.println(key+" "+key.length());
+        System.out.println(key + " " + key.length());
 
         // 需要加密的字串
         String cSrc = "{\"platformId\":\"bank0833\",\"platformSeqId\":\"2019031910414749\",\"platformTransDate\":\"20190319\",\"platformTransTime\":\"104618\",\"transCode\":\"P2210003\",\"sign\":\"441c4f364a72d8aa37248246bb67e4dd3f532ffbfb5b32c6cd5b948f204d6666\",\"dataString\":\"{\\\"projectNum\\\":\\\"A01800\\\",\\\"batchNum\\\":\\\"LSYKT_1102123_20190301101345\\\",\\\"departmentId\\\":\\\"1102123\\\",\\\"departmentAccount\\\":\\\"42860152622000615616\\\",\\\"departmentAccountName\\\":\\\"乐山惠民惠农财政补贴内部户\\\",\\\"handedOutDate\\\":\\\"20190319\\\",\\\"amt\\\":\\\"1000.0\\\",\\\"count\\\":1,\\\"succAmt\\\":\\\"\\\",\\\"succCount\\\":0,\\\"failAmt\\\":\\\"1000.0\\\",\\\"failCount\\\":1,\\\"dataList\\\":\\\"[{\\\\\\\"serialNum\\\\\\\":\\\\\\\"7550607\\\\\\\",\\\\\\\"bankAccountNumber\\\\\\\":\\\\\\\"402665010024\\\\\\\",\\\\\\\"bankName\\\\\\\":\\\\\\\"乐山农信\\\\\\\",\\\\\\\"payeeId\\\\\\\":\\\\\\\"511126200208305433\\\\\\\",\\\\\\\"payeeName\\\\\\\":\\\\\\\"电信诈骗三\\\\\\\",\\\\\\\"collAccount\\\\\\\":\\\\\\\"6214570381000694450\\\\\\\",\\\\\\\"money\\\\\\\":\\\\\\\"1000.0\\\\\\\",\\\\\\\"status\\\\\\\":\\\\\\\"02\\\\\\\",\\\\\\\"comment\\\\\\\":\\\\\\\"\\\\\\\"}]\\\"}\"}";
@@ -123,7 +126,21 @@ public class BankapiTestApplication {
     ApprovalBatchReplyServiceIml approvalBatchReplyServiceIml;
 
     @Test
-    public void  ApprovalBatchReplyServiceIml(){
+    public void ApprovalBatchReplyServiceIml() {
         System.out.println(approvalBatchReplyServiceIml.findByDtilId(1400));
+    }
+
+    @Test
+    public void test() throws Exception {
+
+        paramUtils.pram2(JSONObject.parseObject("{\n" +
+                " \"platformId\": \"1364825837773385728\",\n" +
+                " \"platformSeqId\": \"1364825837773385728\",\n" +
+                " \"platformTransDate\": \"20210225\",\n" +
+                " \"platformTransTime\": \"171500\",\n" +
+                " \"transCode\": \"P2210003\",\n" +
+                " \"sign\": \"f74989214b52c3f4d0b30adf35007a1f9a2f72e1e645c93ce048ead3f852073c\",\n" +
+                " \"dataString\": \"{\\\"batchId\\\":\\\"202102241\\\",\\\"subsidyCode\\\":\\\"B480000582\\\",\\\"deptId\\\":\\\"582\\\",\\\"fileName\\\":\\\"RSQ_20210224_202102241.txt\\\",\\\"md5\\\":\\\"29df3b916d7230792fd6f9b989e0b5a4\\\",\\\"count\\\":2,\\\"amt\\\":200,\\\"succCount\\\":1,\\\"succAmt\\\":100}\"\n" +
+                "}"));
     }
 }

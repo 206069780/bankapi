@@ -47,5 +47,5 @@ public interface BankGetDataParamDao {
      */
     List<BankGetDataParam> getFinish();
 
-    public int findByid(@Param("id") String batchID);
+    public String findByid(@Param("id") String batchID);
 }

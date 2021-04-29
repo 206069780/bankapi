@@ -10,6 +10,7 @@ import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
 import com.bankapi.bankapi.sevice.iml.BankGetDataParamServiceIml;
 import com.bankapi.bankapi.utils.AesUtils;
 import com.bankapi.bankapi.utils.BankReplyMessage;
+import com.bankapi.bankapi.utils.ParamUtils;
 import com.bankapi.bankapi.utils.SignUtil;
 
 import lombok.extern.log4j.Log4j2;
@@ -78,6 +79,9 @@ public class BankController {
     @Value("${AESKEY}")
     private String key;
 
+    @Autowired
+    ParamUtils paramUtils;
+
     /**
      * 银行受理接口
      * 请求方式 POST
@@ -99,16 +103,15 @@ public class BankController {
 
         /*请求传递的数据*/
 
-        //交易日期
+
+        //交易码
+        String transCode = (String) jsonObject.get("transCode");
         String date = (String) jsonObject.get("platformTransDate");
 
         //流水号
         String platformId = (String) jsonObject.get("platformId");
         //流水号
         String paltformSeqId = (String) jsonObject.get("platformSeqId");
-
-        //交易码
-        String transCode = (String) jsonObject.get("transCode");
 
         //签名
         String sign = (String) jsonObject.get("sign");
@@ -126,81 +129,23 @@ public class BankController {
         if (!signstr.equals(sign)) {
             return "{status:105,message:\"签名错误\"}";
         }
-
-        //将 dataString 转为json格式
         JSONObject dataStringJson = JSONObject.parseObject(dataString);
 
-        //批次id
-        String batchID = dataStringJson.getString("batchId");
+        /*判断受理 反馈 */
+        if (transCode.equals("P2210002")) {
 
-        //部门号
-        String subsidyCode = dataStringJson.getString("subsidyCode");
+            //将 dataString 转为json格式
 
-        //部门id
-        String departmentId = dataStringJson.getString("deptId");
+            return paramUtils.param1(dataStringJson, transCode, key, platformId, paltformSeqId, date, time, signstr);
 
-        //文件校验和
-        String md5 = (String) dataStringJson.get("md5");
+        }
+        if (transCode.equals("P2210003")) {
 
-        //发放的数量
-        int succCount = (int) dataStringJson.get("succCount");
-
-        //发放的金额
-        int succAmt = (int) dataStringJson.get("amt");
-
-        if (date.isEmpty() || date == null || platformId.isEmpty() || platformId == null ||
-                paltformSeqId.isEmpty() || paltformSeqId == null || transCode.isEmpty() ||
-                transCode == null || sign == null || sign.isEmpty() || time.isEmpty() ||
-                time == null || dataString == null || dataString.isEmpty() || batchID == null ||
-                batchID.isEmpty() || subsidyCode == null || subsidyCode.isEmpty() ||
-                departmentId == null || departmentId.isEmpty() || md5 == null || md5.isEmpty()
-        ) {
-            return "{status:105,message:\"参数完整，请检查\"}";
+            return paramUtils.pram2(dataStringJson);
         }
 
-        int status = 0;
-
-        /*判断是否存在该批次*/
-        if (approvalProcessEventDaoServiceIml.findByid(batchID)) {
-
-            //查询 batchID 的状态
-            Map<String, String> statusMap = approvalProcessEventDaoServiceIml.getStatus(batchID);
-
-            //如果批次已被受理，直接返回
-            if (statusMap.get("BANK_NOTICE_TYPE").equals("2") && statusMap.get("STATUS").equals("1")) {
-                return "{status:105,message:\"批次已被受理,请勿重复提交受理\"}";
-            }
-
-            /*判断 B_BANK_PARAMETER 是否存在该条记录*/
-            if (bankGetDataParamServiceIml.findByid(batchID)) {
-
-                return "{status:105,message:\"批次已被受理,请勿重复提交受理\"}";
-            }
-
-            /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */
-            approvalProcessEventDaoServiceIml.statusUpdat(batchID, "2", "1");
-            log.info(batchID + " 已由系统受理，当前状态 审批中");
-
-            /* B_BANK_PARAMETER 受理进度 0：已受理；1：已反馈；2：发放异常 */
-            if (bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'))) {
-                status = 200;
-                log.info(batchID + " save B_BANK_PARAMETER 等待银行反馈");
-
-            } else {
-                log.info("B_BANK_PARAMETER 无法存储: " + batchID);
-                return "{status:105,message:\"受理异常中断\"}";
-            }
-
-            /* APV_APPROVAL_BATCH_DETAIL 状态更新：  3 发放成功  4 发放失败 */
-//            int approvalProcessEventDetails = approvalProcessEventDetailsServiceIml.statusUpdate(batchID, "0");
-
-
-        } else {
-            log.error("系统无法受理该批次[无法搜索到该批次]");
-            status = 105;
-        }
-        return JSONObject.toJSON(new ParamResponseBean(platformId, paltformSeqId, date, time, transCode, sign,
-                new ParamResponseMessage(batchID, status)));
+        System.out.println(transCode + "4");
+        return null;
     }
 
     /**
@@ -209,11 +154,11 @@ public class BankController {
      * @param file 提交的文件
      * @return
      */
-    @RequestMapping(value = "postfile", method = RequestMethod.POST)
+/*    @RequestMapping(value = "postfile", method = RequestMethod.POST)
     @ResponseBody
     public Object postfile(@RequestBody MultipartFile file) {
 
-        /* 判断 file 查看文件是否成功上传 */
+        *//* 判断 file 查看文件是否成功上传 *//*
         if (file == null) {
             log.error("文件上传失败");
             return "文件上传错误";
@@ -248,9 +193,7 @@ public class BankController {
             return "文件上传错误";
         }
         return "出现未知错误！请稍后访问";
-    }
-
-
+    }*/
     @RequestMapping(value = "getParam", method = RequestMethod.GET)
     @ResponseBody
     public List<BankGetDataParam> getParam() {
