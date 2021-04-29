@@ -29,4 +29,6 @@ public interface ApprovalBatchReplyDao {
     public int hasDtilId(@Param("id") Integer id);
 
     public String getLastestId();
+
+    public int findByBatchId(@Param("id") String batch_id);
 }

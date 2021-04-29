@@ -45,4 +45,7 @@
         select MAX(ID)
         from APV_APPROVAL_BATCH_REPLY
     </select>
+    <select id="findByBatchId" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select STATUS from APV_APPROVAL_BATCH where ID=#{id}
+    </select>
 </mapper>

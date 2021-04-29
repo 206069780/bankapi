@@ -47,12 +47,31 @@ public class ApprovalBatchReplyServiceIml implements ApprovalBatchReplyService {
         return null;
     }
 
+    /**
+     * 判断是否存在批次
+     *
+     * @param id
+     * @return
+     */
     public boolean findByDtilId(Integer id) {
-        if (id != null)
-        {
+        if (id != null) {
             return approvalBatchReplyDao.hasDtilId(id) > 0;
         }
         return false;
+    }
+
+    /**
+     * 判断批次是否受理
+     *
+     * @param BATCH_ID
+     * @return
+     */
+    @Override
+    public boolean findByBatchId(String BATCH_ID) {
+        if (BATCH_ID == null || BATCH_ID.length() == 0) {
+            return false;
+        }
+        return approvalBatchReplyDao.findByBatchId(BATCH_ID) == 0;
     }
 
     public String getLastestId() {

@@ -178,7 +178,7 @@ public class BankController {
 //            int approvalProcessEventDetails = approvalProcessEventDetailsServiceIml.statusUpdate(batchID, "0");
 
             /*判断 B_BANK_PARAMETER 是否存在该条记录*/
-            if (bankGetDataParamServiceIml.findByid(batchID)){
+            if (bankGetDataParamServiceIml.findByid(batchID)) {
                 return "B_BANK_PARAMETER 已存在该批次";
             }
 
@@ -236,7 +236,7 @@ public class BankController {
         }
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
-            String path = "/home/oem/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
+            String path = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/";
             File dest = new File(path + fileName);
             try {
                 file.transferTo(dest);
@@ -246,13 +246,13 @@ public class BankController {
                     case 1:
                         return "{\n" +
                                 "\"status\":200,\n" +
-                                "\"message\":\"资金发放结果反馈成功！\"\n" +
+                                "\"message\":\"反馈成功！\"\n" +
                                 "}";
                     case 2:
-                        log.error("发放失败" + jsonObject.get("fail") + "\n" + "失败原因：" + jsonObject.get("cause"));
+                        log.error("反馈失败" + jsonObject.get("fail") + "\n" + "失败原因：" + jsonObject.get("cause"));
                         return "{\n" +
                                 "\"status\":105,\n" +
-                                "\"message\":\"资金发放失败！\"\n" +
+                                "\"message\":\"反馈失败！\"\n" +
                                 "}";
                 }
             } catch (IOException e) {

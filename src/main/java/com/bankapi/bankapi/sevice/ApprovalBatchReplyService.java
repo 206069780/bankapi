@@ -25,4 +25,6 @@ public interface ApprovalBatchReplyService {
     public Map<BigDecimal, BigDecimal> getapprovalId(String BATCH_ID, String BANK_NO);
 
     public boolean findByDtilId(Integer id);
+
+    public boolean findByBatchId(String BATCH_ID);
 }

@@ -6,7 +6,6 @@ import com.bankapi.bankapi.model.dormat.ApprovalBatchReply;
 import com.bankapi.bankapi.model.dormat.BRplyWarning;
 import com.bankapi.bankapi.sevice.iml.*;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -61,6 +60,8 @@ public class BankReplyMessage {
             //转为计算机可识别的格式
             BufferedReader bufferedReader = new BufferedReader(reader);
 
+            /*受理条件入口标识*/
+//            boolean isSL = true;
             String line = "";
             while (bufferedReader.ready()) {
                 line = bufferedReader.readLine();
@@ -72,13 +73,30 @@ public class BankReplyMessage {
                 String DTID = String.valueOf(map.get("ID"));
                 String APPROVAL_ID = String.valueOf(map.get("APPROVAL_ID"));
 
+                /*优先判断该该批次是否完成受理？进行反馈流程:返回 105*/
+                /*批次id*/
+                String BATCH_ID = lineArr[0];
+         /*       if (isSL) {
+                    if (approvalBatchReplyServiceIml.findByBatchId(BATCH_ID)) {
+                        log.error("系统未受理，无法进行反馈");
+                        return JSON.parseObject("{status:2,message:\"批次 " + BATCH_ID + "未受理，先完成受理流程\"}");
+                    } else {
+                        isSL = false;
+                    }
+                }*/
+
+                /*优先判断该该批次是否完成受理？进行反馈流程:返回 105*/
+                /*批次id*/
+                if (approvalBatchReplyServiceIml.findByBatchId(BATCH_ID)) {
+                    log.error("系统未受理，无法进行反馈");
+                    return JSON.parseObject("{status:2,message:\"批次 " + BATCH_ID + "未受理，先完成受理流程\"}");
+                }
+
                 // 判断 detailid 是否存在 不存在->保存 存在->返回
                 if (!approvalBatchReplyServiceIml.findByDtilId(Integer.parseInt(DTID))) {
-                    int getid = approvalBatchReplyServiceIml.getLastestId() == null ? 0 : approvalBatchReplyServiceIml.getLastestId() == null ? 0 : approvalBatchReplyServiceIml.getLastestId() == null ? 0 : Integer.parseInt(approvalBatchReplyServiceIml.getLastestId());
-                    int id = getid + 1;
 
-                    /*批次id*/
-                    String BATCH_ID = lineArr[0];
+                    String getStrId = approvalBatchReplyServiceIml.getLastestId();
+                    int id = getStrId == null ? 0 : Integer.parseInt(getStrId) + 1;
 
                     /*姓名*/
                     String name = lineArr[1];
@@ -106,18 +124,20 @@ public class BankReplyMessage {
                     if (approvalBatchReplyServiceIml.approvaDateSave(approvalBatchReply) > 0) {
                         log.info(line + " insert  into APV_APPROVAL_BATCH_REPLY");
                     } else {
-                        log.info(line + " un insert  into APV_APPROVAL_BATCH_REPLY");
+                        log.error(line + " un insert  into APV_APPROVAL_BATCH_REPLY");
                     }
 
-                    int ID = Integer.parseInt(bRplyWarningServiceIml.getlastest()==null?"0":bRplyWarningServiceIml.getlastest());
+                    String getID = bRplyWarningServiceIml.getlastest();
+                    int ID = Integer.parseInt(getID == null ? "0" : getID);
+
                     String CREATE_USER_ID = bRplyWarningServiceIml.getUserId(BATCH_ID);
                     if (reStatus.equals("02")) {
-                        if (bRplyWarningServiceIml.save(new BRplyWarning(ID+1, BATCH_ID, DTID, id, "0", remark, String.valueOf(CREATE_USER_ID), new Date()))) {
-                            log.error("[发放失败]" + line);
-                            failList.add(line);
+                        if (bRplyWarningServiceIml.save(new BRplyWarning(ID + 1, BATCH_ID, DTID, id, "0", remark, String.valueOf(CREATE_USER_ID), new Date()))) {
+                            log.error(line + "反馈失败");
+                            sessuList.add(line);
                         }
                     } else if (reStatus.equals("01")) {
-                        log.info(approvalBatchReply.getDetailId() + " " + line + "发放成功");
+                        log.info(line + "反馈成功");
                         //成功数据
                         sessuList.add(line);
                     } else {
@@ -125,7 +145,7 @@ public class BankReplyMessage {
                     }
 
                     /* B_BANK_PARAMETER 受理结果状态更新 */
-                    if (bankGetDataParamServiceIml.DataParamUpDataParam(approvalBatchReply.getReplyStatus(), approvalBatchReply.getBatchId())) {
+                    if (bankGetDataParamServiceIml.DataParamUpDataParam("0", approvalBatchReply.getBatchId())) {
                         log.info("Update B_BANK_PARAMETER status ");
                     } else {
                         log.error("un Update B_BANK_PARAMETER status ");
@@ -135,6 +155,7 @@ public class BankReplyMessage {
                     } else {
                         log.info("Un Update APV_APPROVAL_BATCH status");
                     }
+
                     // B_BANK_PARAMETER Status 更新
 //                    res1 = bankGetDataParamServiceIml.DataParamUpDataParam(approvalBatchReply.getReplyStatus(), approvalBatchReply.getBatchId());
 
@@ -145,12 +166,12 @@ public class BankReplyMessage {
 //                    res3 = approvalProcessTaskBatchDao.updateStatus(approvalBatchReply.getBatchId(), "2");
                 } else {
                     //获取反馈失败的数据
-                    log.error(line + "【已发放，请勿重复发放！！！】");
+                    log.error("【已反馈，请勿重复反馈！！！】" + line);
                     failList.add(line);
                 }
             }
             log.info("【文件解析结束】");
-            return failList.size() > 0 ? JSON.parseObject("{status:2,fail:\"" + failList + "\" ,cause:\"已发放，请勿重新发放 \",sessu:\"" + sessuList + "\"}") : JSON.parseObject("{status:1,sessu:" + sessuList + "}");
+            return failList.size() > 0 ? JSON.parseObject("{status:2,fail:\"" + failList + "\" ,cause:\"已反馈，请勿重新反馈 \",sessu:\"" + sessuList + "\"}") : JSON.parseObject("{status:1,sessu:\"" + sessuList + "\"}");
 
         } catch (IOException e) {
 //            log.error("文件解析异常");
