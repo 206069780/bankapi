@@ -123,7 +123,7 @@ public class BankController {
         String signstr = SignUtil.getSign(platformId + paltformSeqId + date + time + transCode + key + dataString);
         //签名比较
         if (!signstr.equals(sign)) {
-            return "签名错误";
+            return "{status:105,message:\"签名错误\"}";
         }
 
         //将 dataString 转为json格式
@@ -154,7 +154,7 @@ public class BankController {
                 batchID.isEmpty() || subsidyCode == null || subsidyCode.isEmpty() ||
                 departmentId == null || departmentId.isEmpty() || md5 == null || md5.isEmpty()
         ) {
-            return "参数不完全";
+            return "{status:105,message:\"参数完整，请检查\"}";
         }
 
         int status = 0;
@@ -167,7 +167,7 @@ public class BankController {
 
             //如果批次已被受理，直接返回
             if (statusMap.get("BANK_NOTICE_TYPE").equals("2") && statusMap.get("STATUS").equals("1")) {
-                return "批次已被受理，请勿重新提交";
+                return "{status:105,message:\"批次已被受理,请勿重复提交受理\"}";
             }
 
             /*更新 APV_APPROVAL_BATCH 状态：  2 系统受理 ，审批中 1 */

@@ -21,7 +21,6 @@
                 #{createdDate}, #{statusta})
     </insert>
 
-
     <update id="DataParamUpDataParam" parameterType="java.lang.String">
         update B_BANK_PARAMETER
         set STATE=#{status}
@@ -39,9 +38,11 @@
         from B_BANK_PARAMETER
         where STATE = '1'
     </select>
+
     <select id="findByid" resultType="java.lang.Integer" parameterType="java.lang.String">
         select BATCH_ID
-        from BATCH_ID=#{id}
+        from B_BANK_PARAMETER
+        where BATCH_ID = #{id}
     </select>
 
 </mapper>
