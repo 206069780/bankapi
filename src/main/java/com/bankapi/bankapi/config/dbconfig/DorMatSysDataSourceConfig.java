@@ -25,7 +25,6 @@ import javax.sql.DataSource;
  * @date 2021/4/19 下午3:30
  * @Description DORMAT数据库 配置类
  */
-
 @Configuration
 @MapperScan(basePackages = "com.bankapi.bankapi.dao.dormatsysdao", sqlSessionFactoryRef = "DorMatSqlSessionFactoryRef")
 public class DorMatSysDataSourceConfig {

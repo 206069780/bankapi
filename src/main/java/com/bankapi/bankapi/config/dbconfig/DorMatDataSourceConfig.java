@@ -17,11 +17,12 @@ import javax.sql.DataSource;
 import java.io.Serializable;
 
 @Configuration
-@MapperScan(basePackages = "com.bankapi.bankapi.dao.dormatdao",sqlSessionFactoryRef = "DorMatSqlSessionFactory")
-public class DorMatDataSourceConfig  {
+@MapperScan(basePackages = "com.bankapi.bankapi.dao.dormatdao", sqlSessionFactoryRef = "DorMatSqlSessionFactory")
+public class DorMatDataSourceConfig {
 
     /**
-     *  获取DorMat的数据源
+     * 获取DorMat的数据源
+     *
      * @return
      */
     @Bean(name = "DorMatSource")
@@ -32,6 +33,7 @@ public class DorMatDataSourceConfig  {
 
     /**
      * 返回DorMat数据库的会话工厂
+     *
      * @param ds
      * @return
      * @throws Exception
@@ -46,12 +48,13 @@ public class DorMatDataSourceConfig  {
 
     /**
      * 返回DorMat数据库的会话模板
+     *
      * @param sessionFactory
      * @return
      * @throws Exception
      */
     @Bean(name = "DorMatSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate1(@Qualifier("DorMatSqlSessionFactory") SqlSessionFactory sessionFactory) throws Exception {
+    public SqlSessionTemplate sqlSessionTemplate1(@Qualifier("DorMatSqlSessionFactory") SqlSessionFactory sessionFactory) {
         return new SqlSessionTemplate(sessionFactory);
     }
 

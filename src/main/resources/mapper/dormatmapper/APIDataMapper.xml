@@ -36,21 +36,22 @@
     <!--    </select>-->
 
     <select id="getApiDataList" resultMap="APIDataMap">
-        select distinct APV_APPROVAL_BATCH.RELEASE_NAME as fileName,
-                        APV_APPROVAL_BATCH.RELEASE_MD5  as MD5,
-                        APV_APPROVAL_BATCH.ID           as BATCH_ID,
-                        S_SUBSIDY.CODE                  as SUBSIDY_CODE,
-                        S_SUBSIDY.DIGEST_CODE           as DIGEST_CODE,
-                        S_SUBSIDY.DIGEST_DESC           as DIGEST_DESC,
-                        APV_APPROVAL.DEPT_ID            as DEPT_ID,
-                        APV_APPROVAL.TOTAL_COUNT        as TOTAL_COUNT,
-                        APV_APPROVAL.TOTAL_MONEY        as TOTAL_MONEY,
-                        APV_APPROVAL_BATCH.REPLY_MONEY  as REPLY_MONEY,
-                        APV_APPROVAL_BATCH.SF           as SF
-        from APV_APPROVAL_BATCH,
-             S_SUBSIDY,
-             APV_APPROVAL
-        where BANK_NOTICE_TYPE = '0'
+        select distinct APV_APPROVAL.DEPT_ID               as DEPT_ID,
+                        APV_APPROVAL.SUBSIDY_CODE          as SUBSIDY_CODE,
+                        APV_APPROVAL_BATCH_DETAIL.BATCH_ID as BATCH_ID,
+                        APV_APPROVAL.TOTAL_COUNT           as TOTAL_COUNT,
+                        APV_APPROVAL.TOTAL_MONEY           as TOTAL_MONEY,
+                        S_SUBSIDY.DIGEST_CODE              as DIGEST_CODE,
+                        S_SUBSIDY.DIGEST_DESC              as DIGEST_DESC,
+                        APV_APPROVAL_BATCH.RELEASE_NAME    as fileName,
+                        APV_APPROVAL_BATCH.RELEASE_MD5     as MD5
+        from APV_APPROVAL_BATCH_DETAIL,
+             APV_APPROVAL,
+             APV_APPROVAL_BATCH,
+             S_SUBSIDY
+        where APV_APPROVAL.ID = APV_APPROVAL_BATCH_DETAIL.APPROVAL_ID
+          and APV_APPROVAL_BATCH.APPROVAL_ID = APV_APPROVAL.ID
+          and APV_APPROVAL_BATCH.BANK_NOTICE_TYPE = '0'
           and S_SUBSIDY.CODE = APV_APPROVAL.SUBSIDY_CODE
     </select>
 </mapper>

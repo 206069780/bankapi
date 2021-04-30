@@ -33,13 +33,10 @@ public class APIDataServiceIml implements APIDataService {
     StringUtils stringUtils;
 
     @Override
-    public List<ApiData> getApiDataList() throws IOException {
+    public List<ApiData> getApiDataList() {
 
         List<ApiData> list = apiDataDao.getApiDataList();
-
-        for (ApiData lists : list ) {
-            lists.setPlatFormId(stringUtils.getRandomString());
-        }
+        list.forEach(apiData -> apiData.setPlatFormId(stringUtils.getRandomString()));
         return list;
     }
 

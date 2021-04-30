@@ -4,12 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bankapi.bankapi.bean.ParamResponseBean;
 import com.bankapi.bankapi.bean.ParamResponseMessage;
 import com.bankapi.bankapi.model.dormat.BankGetDataParam;
-import com.bankapi.bankapi.sevice.iml.APIDataServiceIml;
 import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventDetailsServiceIml;
 import com.bankapi.bankapi.sevice.iml.ApprovalProcessEventServiceIml;
 import com.bankapi.bankapi.sevice.iml.BankGetDataParamServiceIml;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,25 +43,38 @@ public class ParamUtils {
     @Autowired
     BankReplyMessage bankReplyMessage;
 
+    /**
+     * 银行受理实现
+     *
+     * @param dataString
+     * @param transCode
+     * @param key
+     * @param platformId
+     * @param paltformSeqId
+     * @param date
+     * @param time
+     * @param sign
+     * @return
+     */
     public Object param1(JSONObject dataString, String transCode, String key, String platformId, String paltformSeqId, String date, String time, String sign) {
 
         //批次id
         String batchID = dataString.getString("batchId");
 
-        //部门号
-        String subsidyCode = dataString.getString("subsidyCode");
+//        //部门号
+//        String subsidyCode = dataString.getString("subsidyCode");
+//
+//        //部门id
+//        String departmentId = dataString.getString("deptId");
 
-        //部门id
-        String departmentId = dataString.getString("deptId");
-
-        //文件校验和
-        String md5 = (String) dataString.get("md5");
-
-        //发放的数量
-        int succCount = (int) dataString.get("succCount");
-
-        //发放的金额
-        int succAmt = (int) dataString.get("amt");
+//        //文件校验和
+//        String md5 = (String) dataString.get("md5");
+//
+//        //发放的数量
+//        int succCount = (int) dataString.get("succCount");
+//
+//        //发放的金额
+//        int succAmt = (int) dataString.get("amt");
 
         int status = 0;
 
@@ -89,7 +100,7 @@ public class ParamUtils {
             log.info(batchID + " 已由系统受理，当前状态 审批中");
 
             /* B_BANK_PARAMETER 受理进度 0：已受理；1：已反馈；2：发放异常 */
-            if (bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(1L, platformId, subsidyCode, departmentId, batchID, new Date(), '0'))) {
+            if (bankGetDataParamServiceIml.DataParamSave(new BankGetDataParam(1L, platformId, "", "", batchID, new Date(), '0'))) {
                 status = 200;
                 log.info(batchID + " save B_BANK_PARAMETER 等待银行反馈");
 
@@ -106,11 +117,17 @@ public class ParamUtils {
                 new ParamResponseMessage(batchID, status)));
     }
 
-
+    /**
+     * 银行反馈
+     *
+     * @param dataString
+     * @return
+     * @throws IOException
+     */
     public Object pram2(JSONObject dataString) throws IOException {
 
         String fileName = dataString.getString("fileName");
-        String filePath = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/test.txt";
+        String filePath = "/home/kali/IdeaProjects/bankapi/src/main/java/com/bankapi/bankapi/controller/" + fileName;
         File dest = new File(filePath);
 
         //文件校验和
@@ -130,7 +147,7 @@ public class ParamUtils {
         //发放的数量
         String succCount = dataString.getString("succCount");
         //发放的金额
-        String succAmt =  dataString.getString("amt");
+        String succAmt = dataString.getString("amt");
 
         JSONObject jsonObject = bankReplyMessage.readTxt(filePath);
         int status = (int) jsonObject.get("status");
